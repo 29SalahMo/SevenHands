@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SEVEN HANDS Docs</title>
+<link rel="icon" href="logo.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="app no-print">
+  <div class="brand"><img src="logo.png" alt=""><div><b id="appTitle"></b><small id="appSub"></small></div></div>
+  <div class="hacts"><button class="btn" id="homeBtn" hidden></button><button class="btn" id="uiLang">EN</button></div>
+</header>
+<main>
+  <div id="home"></div>
+  <div id="editor" hidden></div>
+</main>
+<div id="modal" class="modal no-print" hidden></div>
+<script src="vendor/docx.min.js"></script>
+<script src="vendor/exceljs.min.js"></script>
+<script src="vendor/html2pdf.bundle.min.js"></script>
+<script src="templates.js"></script>
+<script src="export.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
