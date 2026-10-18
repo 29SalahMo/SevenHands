@@ -8,8 +8,8 @@
 
   const STR = {
     ar: {
-      app: "محرر الأوراق والقوالب الهندسية",
-      sub: "سفن هاندز | قسم تكنولوجيا المعلومات",
+      app: "سفن هاندز للخدمات الهندسية والمقاولات",
+      sub: "المنظومة الرقمية المعتمدة للوثائق واللوائح",
       newFrom: "ابدأ من النماذج المعتمدة",
       saved: "أوراقي ومستنداتي المحفوظة",
       none: "لا توجد أوراق محفوظة بعد. اختر قالباً من الأعلى للبدء فوراً.",
@@ -128,8 +128,8 @@
       allDepts: "كافة الأقسام"
     },
     en: {
-      app: "Engineering Documents & Templates Editor",
-      sub: "SEVEN HANDS | IT Department",
+      app: "SEVEN HANDS For Engineering Services & Construction",
+      sub: "Corporate Engineering Documents & Operations Portal",
       newFrom: "Start from Approved Templates",
       saved: "My Saved Documents & Worksheets",
       none: "Nothing saved yet. Select a template above to start immediately.",
@@ -334,6 +334,9 @@
   function applyUI() {
     document.documentElement.lang = ui;
     document.documentElement.dir = ui === "ar" ? "rtl" : "ltr";
+    document.title = ui === "ar"
+      ? (cur ? (cur.name || cur.title) + " | سفن هاندز للخدمات الهندسية والمقاولات" : "شركة سفن هاندز للخدمات الهندسية والمقاولات | SEVEN HANDS")
+      : (cur ? (cur.name || cur.title) + " | SEVEN HANDS For Engineering Services & Construction" : "SEVEN HANDS For Engineering Services & Construction");
     $("#appTitle").textContent = t("app");
     $("#appSub").textContent = t("sub");
     $("#uiLang").textContent = ui === "ar" ? "EN" : "عربي";
@@ -436,9 +439,9 @@
     const currentUrl = getLiveUrl();
     if (cur) {
       const docCode = cur.docNumber ? ` [${cur.docNumber}]` : "";
-      const docName = (cur.name || cur.title || (ui === "ar" ? "ورقة عمل" : "Document")) + docCode;
+      const docName = (cur.name || cur.title || (ui === "ar" ? "وثيقة رسمية" : "Document")) + docCode;
       const msg = encodeURIComponent(
-        (ui === "ar" ? "ورقة عمل هندسية من سفن هاندز: " : "Seven Hands Engineering Document: ") +
+        (ui === "ar" ? "وثيقة رسمية معتمدة من شركة سفن هاندز: " : "Official Document from SEVEN HANDS: ") +
         docName + "\n" + currentUrl
       );
       waShareDocLink.href = "https://api.whatsapp.com/send?text=" + msg;
@@ -447,8 +450,8 @@
     } else {
       const msg = encodeURIComponent(
         (ui === "ar"
-          ? "منظومة سفن هاندز للنماذج الهندسية وأوراق عمل تكنولوجيا المعلومات:\n"
-          : "Seven Hands Engineering Docs & IT Templates System:\n") + currentUrl
+          ? "شركة سفن هاندز للخدمات الهندسية والمقاولات - المنظومة الرقمية المعتمدة للوثائق واللوائح:\n"
+          : "SEVEN HANDS For Engineering Services & Construction - Corporate Operations Portal:\n") + currentUrl
       );
       waShareDocLink.href = "https://api.whatsapp.com/send?text=" + msg;
       if (waDocTitle) waDocTitle.textContent = ui === "ar" ? "مشاركة رابط المنظومة" : "Share System Link";
@@ -1187,6 +1190,9 @@
 
   /* ---------- Home View with Interactive Search & Filters ---------- */
   function renderHome() {
+    document.title = ui === "ar"
+      ? "شركة سفن هاندز للخدمات الهندسية والمقاولات | SEVEN HANDS"
+      : "SEVEN HANDS For Engineering Services & Construction";
     $("#editor").hidden = true;
     $("#home").hidden = false;
     $("#homeBtn").hidden = true;
@@ -1606,6 +1612,8 @@
   }
 
   function renderEditor() {
+    document.title = (cur.name || cur.title || (ui === "ar" ? "وثيقة رسمية" : "Document")) +
+      (ui === "ar" ? " | سفن هاندز للخدمات الهندسية والمقاولات" : " | SEVEN HANDS");
     $("#home").hidden = true;
     $("#editor").hidden = false;
     $("#homeBtn").hidden = false;
@@ -2196,9 +2204,9 @@
     // Direct WhatsApp Sharing
     if (kind === "wa") {
       const currentUrl = getLiveUrl();
-      const docName = cur.name || cur.title || (ui === "ar" ? "وثيقة عمل" : "Worksheet");
+      const docName = cur.name || cur.title || (ui === "ar" ? "وثيقة رسمية" : "Official Document");
       const msg = encodeURIComponent(
-        (ui === "ar" ? "ورقة عمل من سفن هاندز: " : "Seven Hands IT Worksheet: ") +
+        (ui === "ar" ? "وثيقة رسمية معتمدة من شركة سفن هاندز للخدمات الهندسية والمقاولات: " : "Official Document - SEVEN HANDS Engineering Services & Construction: ") +
         docName + "\n" + currentUrl
       );
       window.open("https://api.whatsapp.com/send?text=" + msg, "_blank");

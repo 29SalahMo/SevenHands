@@ -1,7 +1,7 @@
 {
   "name": "seven-hands-docs",
   "version": "1.0.0",
-  "description": "SEVEN HANDS Docs - Engineering Documents & IT Management System",
+  "description": "SEVEN HANDS - Engineering Services & Construction - Corporate Documents, ISO Templates & Bylaws Portal",
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",
@@ -9,12 +9,16 @@
   },
   "keywords": [
     "seven-hands",
-    "engineering",
-    "templates",
+    "engineering-services",
+    "construction",
+    "bylaws",
+    "hr-policies",
+    "iso-templates",
+    "procurement",
+    "quotations",
     "docx",
     "exceljs",
-    "pdf",
-    "it-department"
+    "pdf"
   ],
   "author": "Eng. Salah <29SalahMo> (SEVEN HANDS IT Department)",
   "license": "MIT"

@@ -1,14 +1,19 @@
-# SEVEN HANDS Docs
+# شركة سفن هاندز للخدمات الهندسية والمقاولات
+## SEVEN HANDS For Engineering Services & Construction
 
 🔗 **Live Deployment**: [https://sevenhands-eta.vercel.app/](https://sevenhands-eta.vercel.app/)  
 📦 **GitHub Repository**: [https://github.com/29SalahMo/SevenHands](https://github.com/29SalahMo/SevenHands)
 
-محرر قوالب وأوراق عمل (عربي/English) لقسم تكنولوجيا المعلومات في شركة **سفن هاندز للخدمات الهندسية والمقاولات**.  
-Interactive worksheet & template editor for engineering IT work: price comparison sheets, quotations, RFQs, purchase requests, inventory and survey forms.
+المنظومة الرقمية الرسمية المعتمدة لشركة **سفن هاندز للخدمات الهندسية والمقاولات** لإدارة وتوثيق النماذج واللوائح، أوراق العمل، عروض ومقارنة الأسعار، وطلبات الشراء لكافة أقسام الشركة.  
+Comprehensive Enterprise Operations, Documents, ISO Templates & Bylaws Portal for **SEVEN HANDS For Engineering Services & Construction**.
 
-## Features
+## Key Features
+- **Corporate Department Partitions**: Dedicated workspace partitions for **Engineering & Projects**, **Human Resources & Bylaws**, **Procurement & Pricing**, **IT Operations**, and **Executive Management & Secretary**.
+- **Interactive HR Bylaws Reader**: Complete 7-page interactive digitization of the official SEVEN HANDS HR Policy with search, article tabs, and instant print.
+- **35 Approved ISO Templates**: Full library of official company forms with unified ISO headers (`F-08/10 A/B/C`, retention 3 years, release date 01/10/2024, revision 1/0) for leaves, permissions, overtime sheets (1.4x), attendance rosters, resignation clearance, purchase orders, and technical handovers.
+- **Central Document Registry**: Auto-generated corporate document serial numbering (`SH-DOC-2026-XXXX`).
 - **Interactive Routing & Navigation**: Full browser back/forward and mobile swipe support between sheets and the template library.
-- **WhatsApp & Social Cards**: Rich link preview with official branding and 1-click WhatsApp document sharing.
+- **WhatsApp & Social Cards**: Rich 1200x630 link preview with official branding and 1-click WhatsApp document sharing.
 - **Interactive Preloader**: High-tech engineering loading screen with smooth progress, status updates, and instant skip controls.
 - **Live Search & Filter**: Real-time keyword search and category pills across templates and saved sheets.
 - **Live Calculation Engine**: Real-time formula calculations (`qty*price`, `MIN(sig,nek,bos)`, `SUM`) with visual reactive pulse feedback.
