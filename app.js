@@ -77,6 +77,7 @@
       tip: "اضغط أي نص أو خلية للتعديل الفوري · يتم الحساب تلقائياً",
       searchPlaceholder: "ابحث بالاسم أو الوصف أو القسم في القوالب والمستندات المحفوظة...",
       all: "⚡ الكل",
+      deptAccounting: "💰 الإدارة المالية والحسابات",
       deptIt: "💻 تكنولوجيا المعلومات",
       deptProcurement: "🛒 المشتريات والعقود",
       deptHr: "👥 الموارد البشرية",
@@ -125,7 +126,9 @@
       bylawsTitle: "لائحة وسياسة الموارد البشرية الرسمية",
       bylawsDesc: "دليل السياسات واللوائح المعتمدة لشركة سفن هاندز: مواعيد العمل، الإجازات، الأذونات، الأوفر تايم والجزاءات",
       partitionLabel: "قسم العمل",
-      allDepts: "كافة الأقسام"
+      allDepts: "كافة الأقسام",
+      headerAccountingLabel: "أدوات المحاسب",
+      accToolsTitle: "أدوات وحاسبة المحاسب والتفقيط المالي المعتمد"
     },
     en: {
       app: "SEVEN HANDS For Engineering Services & Construction",
@@ -197,6 +200,7 @@
       tip: "Click any cell or text to edit directly · Calculations update live",
       searchPlaceholder: "Search templates, departments and saved sheets...",
       all: "⚡ All",
+      deptAccounting: "💰 Finance & Accounting",
       deptIt: "💻 IT Department",
       deptProcurement: "🛒 Procurement & Quotes",
       deptHr: "👥 Human Resources",
@@ -245,7 +249,9 @@
       bylawsTitle: "Official HR Policy & Bylaws",
       bylawsDesc: "Official regulations: working hours, leaves, permissions, overtime, and penalties",
       partitionLabel: "Partition",
-      allDepts: "All Departments"
+      allDepts: "All Departments",
+      headerAccountingLabel: "Accounting Tools",
+      accToolsTitle: "Accountant Tools, Calculator & Arabic Tafqeet"
     }
   };
 
@@ -346,6 +352,8 @@
     if (regLbl) regLbl.textContent = t("registryShort");
     const bylawsLbl = $("#headerBylawsLabel");
     if (bylawsLbl) bylawsLbl.textContent = t("bylawsLabel");
+    const accLbl = $("#headerAccountingLabel");
+    if (accLbl) accLbl.textContent = t("headerAccountingLabel");
     if (typeof updateHeaderDept === "function") updateHeaderDept();
     const waLbl = $("#floatingWaLabel");
     if (waLbl) waLbl.textContent = t("waLabel");
@@ -995,6 +1003,642 @@
     }
   }
 
+  /* ========================================================
+     Accounting Suite: Arabic Tafqeet & Financial Calculator
+     ======================================================== */
+  function tafqeet(num, currCode) {
+    currCode = currCode || "EGP";
+    num = parseFloat(num);
+    if (isNaN(num) || num === 0) {
+      return ui === "ar" ? "فقط صفر جنيه مصري لا غير" : "Zero EGP only";
+    }
+
+    const ones = ["", "واحد", "اثنان", "ثلاثة", "أربعة", "خمسة", "ستة", "سبعة", "ثمانية", "تسعة", "عشرة",
+      "أحد عشر", "اثنا عشر", "ثلاثة عشر", "أربعة عشر", "خمسة عشر", "ستة عشر", "سبعة عشر", "ثمانية عشر", "تسعة عشر"];
+    const tens = ["", "", "عشرون", "ثلاثون", "أربعون", "خمسون", "ستون", "سبعون", "ثمانون", "تسعون"];
+    const hundreds = ["", "مائة", "مائتان", "ثلاثمائة", "أربعمائة", "خمسمائة", "ستمائة", "سبعمائة", "ثمانمائة", "تسعمائة"];
+
+    function convertGroup(n) {
+      let s = "";
+      const h = Math.floor(n / 100);
+      const rem = n % 100;
+      if (h > 0) s += hundreds[h];
+      if (rem > 0) {
+        if (s) s += " و";
+        if (rem < 20) s += ones[rem];
+        else {
+          const o = rem % 10;
+          const t = Math.floor(rem / 10);
+          if (o > 0) s += ones[o] + " و" + tens[t];
+          else s += tens[t];
+        }
+      }
+      return s;
+    }
+
+    const intPart = Math.floor(Math.abs(num));
+    const decPart = Math.round((Math.abs(num) - intPart) * 100);
+
+    const parts = [];
+    const b = Math.floor(intPart / 1000000000);
+    const m = Math.floor((intPart % 1000000000) / 1000000);
+    const th = Math.floor((intPart % 1000000) / 1000);
+    const u = intPart % 1000;
+
+    if (b > 0) {
+      if (b === 1) parts.push("مليار");
+      else if (b === 2) parts.push("ملياران");
+      else if (b >= 3 && b <= 10) parts.push(convertGroup(b) + " مليارات");
+      else parts.push(convertGroup(b) + " ملياراً");
+    }
+
+    if (m > 0) {
+      if (m === 1) parts.push("مليون");
+      else if (m === 2) parts.push("مليونان");
+      else if (m >= 3 && m <= 10) parts.push(convertGroup(m) + " ملايين");
+      else parts.push(convertGroup(m) + " مليونا");
+    }
+
+    if (th > 0) {
+      if (th === 1) parts.push("ألف");
+      else if (th === 2) parts.push("ألفان");
+      else if (th >= 3 && th <= 10) parts.push(convertGroup(th) + " آلاف");
+      else parts.push(convertGroup(th) + " ألفاً");
+    }
+
+    if (u > 0) {
+      parts.push(convertGroup(u));
+    }
+
+    let mainUnit = "جنيه مصري";
+    let subUnit = "قرش";
+    if (currCode === "USD") { mainUnit = "دولار أمريكي"; subUnit = "سنت"; }
+    else if (currCode === "SAR") { mainUnit = "ريال سعودي"; subUnit = "هللة"; }
+    else if (currCode === "EUR") { mainUnit = "يورو"; subUnit = "سنت"; }
+
+    let currText = mainUnit;
+    if (currCode === "EGP") {
+      if (intPart === 1) currText = "جنيه مصري واحد";
+      else if (intPart === 2) currText = "جنيهان مصريان";
+      else if (intPart >= 3 && intPart <= 10) currText = "جنيهات مصرية";
+      else if (intPart > 10 && (intPart % 100 !== 0 || intPart < 100)) currText = "جنيهاً مصرياً";
+      else currText = "جنيه مصري";
+    }
+
+    let res = "";
+    if (parts.length > 0) {
+      const words = parts.join(" و");
+      res = (intPart === 1 || intPart === 2) && currCode === "EGP" ? currText : words + " " + currText;
+    }
+
+    if (decPart > 0) {
+      const decWords = convertGroup(decPart);
+      let pCurr = subUnit;
+      if (currCode === "EGP") {
+        pCurr = (decPart >= 3 && decPart <= 10) ? "قروش" : "قرشاً";
+      }
+      res += (res ? " و" : "") + decWords + " " + pCurr;
+    }
+
+    return "فقط " + (res || "صفر " + mainUnit) + " لا غير";
+  }
+
+  function startTemplateById(tplId, customData) {
+    const tp = SH.TEMPLATES.find(x => x.id === tplId || x.prefix === tplId);
+    if (!tp) return;
+    const allDocs = Object.values(store.all());
+    const newDoc = tp.make();
+    newDoc.id = uid();
+    newDoc.name = ui === "ar" ? tp.ar : tp.en;
+    newDoc.tpl = tp.id;
+    newDoc.dept = tp.dept || "accounting";
+    const nextSeq = allDocs.length + 1;
+    newDoc.docNumber = `${tp.prefix || "SH-DOC"}-2026-${String(nextSeq).padStart(4, "0")}`;
+    newDoc.status = "draft";
+    if (customData) {
+      Object.assign(newDoc, customData);
+    }
+    store.put(newDoc);
+    const modal = $("#modal");
+    if (modal) modal.hidden = true;
+    showToast(t("savedOk"), "💾");
+    openDoc(newDoc);
+  }
+
+  function openAccountingToolsModal() {
+    const modal = $("#modal");
+    if (!modal) return;
+    modal.hidden = false;
+
+    modal.innerHTML = `
+      <div class="acc-modal-wrap" role="dialog" aria-modal="true" aria-label="أدوات وحاسبة المحاسب والتفقيط المالي">
+        <div class="acc-modal-head">
+          <div>
+            <div class="acc-modal-title">
+              <span>💰</span>
+              <span>أدوات وحاسبة المحاسب والتفقيط المالي المعتمد</span>
+            </div>
+            <small class="acc-modal-sub">سفن هاندز للخدمات الهندسية والمقاولات · الإدارة المالية والحسابات</small>
+          </div>
+          <button class="btn ghost-white small" id="closeAccModalBtn" aria-label="إغلاق">✕</button>
+        </div>
+        <div class="acc-modal-body">
+          <!-- Navigation Tabs -->
+          <div class="acc-tabs-nav">
+            <button class="acc-tab-btn active" id="accTabBtnTafqeet" data-tab="tafqeet">
+              <span>✍️</span> <span>التفقيط المالي باللغة العربية</span>
+            </button>
+            <button class="acc-tab-btn" id="accTabBtnCalc" data-tab="calc">
+              <span>🧮</span> <span>حاسبة الضرائب والاستقطاعات الهندسية</span>
+            </button>
+            <button class="acc-tab-btn" id="accTabBtnForms" data-tab="forms">
+              <span>📑</span> <span>النماذج والسندات المحاسبية (ISO)</span>
+            </button>
+          </div>
+
+          <!-- Tab 1: Tafqeet -->
+          <div id="accTabContentTafqeet">
+            <div class="acc-card">
+              <h3 class="acc-card-title"><span>✍️</span> تحويل المبالغ النقدية إلى كلمات (التفقيط الرسمي للشيكات والسندات)</h3>
+              <p class="muted" style="margin-top:0">أدخل المبلغ بالأرقام للحصول على الصياغة العربية المعتمدة للسندات والشيكات والفواتير الرسمية فوراً.</p>
+
+              <div class="acc-input-row">
+                <input type="number" id="tafqeetAmountInput" class="acc-input-field" placeholder="أدخل المبلغ بالأرقام (مثال: 15450.75)" value="15450.75" step="any">
+                <select id="tafqeetCurrencySelect" class="acc-select-field">
+                  <option value="EGP" selected>🇪🇬 جنيه مصري (EGP)</option>
+                  <option value="USD">🇺🇸 دولار أمريكي (USD)</option>
+                  <option value="SAR">🇸🇦 ريال سعودي (SAR)</option>
+                  <option value="EUR">🇪🇺 يورو (EUR)</option>
+                </select>
+              </div>
+
+              <div class="acc-tafqeet-box">
+                <div class="acc-tafqeet-label"><span>📜</span> النص العربي المفقط المعتمد:</div>
+                <div id="tafqeetOutputText" class="acc-tafqeet-text">فقط خمسة عشر ألفاً وأربعمائة وخمسون جنيهاً مصرياً وخمسة وسبعون قرشاً لا غير</div>
+              </div>
+
+              <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px">
+                <button class="btn primary" id="copyTafqeetBtn">📋 نسخ التفقيط</button>
+                <button class="btn accent" id="insertTafqeetBtn" title="إدراج في الورقة النشطة المفتوحة">✏️ إدراج بالورقة المفتوحة</button>
+                <button class="btn ghost small" id="createVoucherWithTafqeetBtn">💵 إنشاء سند صرف بهذا المبلغ</button>
+              </div>
+
+              <div style="margin-top:16px">
+                <small class="muted" style="font-weight:700">مبالغ شائعة وسريعة:</small>
+                <div class="acc-preset-pills">
+                  <button class="acc-preset-btn" data-val="1000">1,000 ج.م</button>
+                  <button class="acc-preset-btn" data-val="5000">5,000 ج.م (عهدة)</button>
+                  <button class="acc-preset-btn" data-val="15450.75">15,450.75 ج.م</button>
+                  <button class="acc-preset-btn" data-val="47000">47,000 ج.م (محطة عمل)</button>
+                  <button class="acc-preset-btn" data-val="65730">65,730 ج.م (مستخلص)</button>
+                  <button class="acc-preset-btn" data-val="100000">100,000 ج.م</button>
+                  <button class="acc-preset-btn" data-val="2500000">2,500,000 ج.م (مشروع)</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 2: Calculator -->
+          <div id="accTabContentCalc" hidden>
+            <div class="acc-card">
+              <h3 class="acc-card-title"><span>🧮</span> حاسبة الفواتير والضرائب واستقطاعات المقاولات</h3>
+              <p class="muted" style="margin-top:0">حساب فوري شامل لضريبة القيمة المضافة (14%)، ضريبة الخصم والتحصيل (أ.ت.ص)، تأمين الأعمال (5%)، والدفعة المقدمة (10%).</p>
+
+              <div class="acc-calc-grid">
+                <!-- Left: Inputs -->
+                <div>
+                  <label style="display:block;font-weight:700;margin-bottom:6px;color:var(--navy)">المبلغ الأساسي (قبل الضريبة / قيمة الأعمال المنفذة):</label>
+                  <div class="acc-input-row">
+                    <input type="number" id="calcBaseInput" class="acc-input-field" value="100000" step="any" placeholder="المبلغ الأساسي">
+                    <span style="font-weight:700;color:var(--navy)">ج.م</span>
+                  </div>
+
+                  <div class="acc-options-group">
+                    <label class="acc-option-label">
+                      <input type="checkbox" id="calcOptVat" checked>
+                      <span>إضافة ضريبة القيمة المضافة (+ 14% VAT)</span>
+                    </label>
+
+                    <div style="background:#f4f8fb;padding:10px 12px;border-radius:8px;border:1px solid var(--line)">
+                      <span style="font-size:12.5px;font-weight:700;display:block;margin-bottom:6px;color:var(--navy)">ضريبة الخصم والإضافة (خصم من المنبع - أ.ت.ص):</span>
+                      <div style="display:flex;gap:12px;flex-wrap:wrap">
+                        <label class="acc-option-label">
+                          <input type="radio" name="calcWht" value="0.01" checked>
+                          <span>1% (توريدات ومعدات)</span>
+                        </label>
+                        <label class="acc-option-label">
+                          <input type="radio" name="calcWht" value="0.03">
+                          <span>3% (خدمات ومقاولات)</span>
+                        </label>
+                        <label class="acc-option-label">
+                          <input type="radio" name="calcWht" value="0">
+                          <span>بدون خصم</span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <label class="acc-option-label">
+                      <input type="checkbox" id="calcOptRetention" checked>
+                      <span>خصم تأمين ضمان أعمال وحسن تنفيذ (- 5%)</span>
+                    </label>
+
+                    <label class="acc-option-label">
+                      <input type="checkbox" id="calcOptAdvance" checked>
+                      <span>خصم استرداد دفعة مقدمة (- 10%)</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Right: Breakdown Table -->
+                <div>
+                  <div style="background:#fff;border:1.5px solid #bce1f5;border-radius:10px;padding:14px;box-shadow:0 4px 12px rgba(9,72,120,0.06)">
+                    <span style="font-weight:700;color:var(--navy);display:block;margin-bottom:8px">📊 بيان الحسبة المالية المعتمد:</span>
+                    <table class="acc-calc-table">
+                      <tbody>
+                        <tr>
+                          <td>المبلغ الأساسي (قبل الضريبة)</td>
+                          <td style="text-align:left;font-weight:700" id="calcRowBase">100,000.00 ج.م</td>
+                        </tr>
+                        <tr style="color:#0a7e50">
+                          <td>+ ضريبة القيمة المضافة (14%)</td>
+                          <td style="text-align:left;font-weight:700" id="calcRowVat">+14,000.00 ج.م</td>
+                        </tr>
+                        <tr class="total-row">
+                          <td>= الإجمالي شامل الضريبة (14%)</td>
+                          <td style="text-align:left" id="calcRowTotalWithVat">114,000.00 ج.م</td>
+                        </tr>
+                        <tr style="color:#b3261e">
+                          <td>- خصم ضريبة أ.ت.ص (منبع)</td>
+                          <td style="text-align:left;font-weight:700" id="calcRowWht">-1,000.00 ج.م</td>
+                        </tr>
+                        <tr style="color:#b3261e">
+                          <td>- تأمين ضمان الأعمال (5%)</td>
+                          <td style="text-align:left;font-weight:700" id="calcRowRetention">-5,000.00 ج.م</td>
+                        </tr>
+                        <tr style="color:#b3261e">
+                          <td>- استرداد دفعة مقدمة (10%)</td>
+                          <td style="text-align:left;font-weight:700" id="calcRowAdvance">-10,000.00 ج.م</td>
+                        </tr>
+                        <tr class="net-row">
+                          <td>صافي المستحق للصرف للشيك</td>
+                          <td style="text-align:left" id="calcRowNet">98,000.00 ج.م</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <div style="margin-top:12px;background:#f0f7fb;border-radius:6px;padding:10px;border:1px solid #cce4f2">
+                      <small class="muted" style="font-weight:700;display:block;margin-bottom:4px">تفقيط صافي المستحق:</small>
+                      <div id="calcNetTafqeet" style="font-weight:700;color:var(--navy);font-size:13.5px">فقط ثمانية وتسعون ألف جنيهاً مصرياً لا غير</div>
+                    </div>
+
+                    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+                      <button class="btn small primary" id="copyCalcSummaryBtn">📋 نسخ ملخص الحسبة</button>
+                      <button class="btn small accent" id="createVoucherFromCalcBtn">💵 إصدار سند صرف</button>
+                      <button class="btn small ghost" id="createIpcFromCalcBtn">🏗️ إصدار مستخلص</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 3: Accounting Templates -->
+          <div id="accTabContentForms" hidden>
+            <div class="acc-card">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+                <div>
+                  <h3 class="acc-card-title" style="margin:0"><span>📑</span> النماذج والدفاتر المحاسبية المعتمدة (ISO F-08/10)</h3>
+                  <p class="muted" style="margin:4px 0 0">نماذج رسمية جاهزة للطباعة والتصدير الفوري إلى Excel و Word و PDF.</p>
+                </div>
+                <button class="btn primary small" id="switchAccPartitionBtn">⚡ الانتقال لبيئة عمل الحسابات</button>
+              </div>
+
+              <div class="acc-templates-grid">
+                <div class="acc-tpl-card">
+                  <div>
+                    <div class="acc-tpl-head">
+                      <span class="acc-tpl-icon">💵</span>
+                      <div>
+                        <h4 class="acc-tpl-title">سند صرف نقدية / شيك</h4>
+                        <span class="acc-tpl-code">F-08/10 F1 · حفظ 5 سنوات</span>
+                      </div>
+                    </div>
+                    <p class="acc-tpl-desc">سند صرف رسمي للموردين والمقاولين والمصروفات مع التوجيه المحاسبي.</p>
+                  </div>
+                  <button class="btn small primary launch-acc-tpl-btn" data-tpl="acc-payment-voucher">فتح وتحرير النموذج ↗</button>
+                </div>
+
+                <div class="acc-tpl-card">
+                  <div>
+                    <div class="acc-tpl-head">
+                      <span class="acc-tpl-icon">💳</span>
+                      <div>
+                        <h4 class="acc-tpl-title">سند قبض نقدية / شيك</h4>
+                        <span class="acc-tpl-code">F-08/10 F2 · حفظ 5 سنوات</span>
+                      </div>
+                    </div>
+                    <p class="acc-tpl-desc">سند تحصيل وقبض رسمي لإيداعات العملاء ودفعات المشروعات.</p>
+                  </div>
+                  <button class="btn small primary launch-acc-tpl-btn" data-tpl="acc-receipt-voucher">فتح وتحرير النموذج ↗</button>
+                </div>
+
+                <div class="acc-tpl-card">
+                  <div>
+                    <div class="acc-tpl-head">
+                      <span class="acc-tpl-icon">💼</span>
+                      <div>
+                        <h4 class="acc-tpl-title">استمارة تسوية عهدة نقدية</h4>
+                        <span class="acc-tpl-code">F-08/10 F3 · حفظ 5 سنوات</span>
+                      </div>
+                    </div>
+                    <p class="acc-tpl-desc">كشف تسوية الفواتير والمصروفات النثرية مع حساب المتبقي أو المستحق.</p>
+                  </div>
+                  <button class="btn small primary launch-acc-tpl-btn" data-tpl="acc-petty-cash">فتح وتحرير النموذج ↗</button>
+                </div>
+
+                <div class="acc-tpl-card">
+                  <div>
+                    <div class="acc-tpl-head">
+                      <span class="acc-tpl-icon">🏗️</span>
+                      <div>
+                        <h4 class="acc-tpl-title">مستخلص جاري مقاولي باطن</h4>
+                        <span class="acc-tpl-code">F-08/10 F4 · مشاريع هندسية</span>
+                      </div>
+                    </div>
+                    <p class="acc-tpl-desc">حصر كميات الأعمال، نسب الإنجاز، واستقطاعات الدفعة المقدمة والضمان.</p>
+                  </div>
+                  <button class="btn small primary launch-acc-tpl-btn" data-tpl="acc-contractor-cert">فتح وتحرير النموذج ↗</button>
+                </div>
+
+                <div class="acc-tpl-card">
+                  <div>
+                    <div class="acc-tpl-head">
+                      <span class="acc-tpl-icon">👥</span>
+                      <div>
+                        <h4 class="acc-tpl-title">كشف مسير رواتب شهري</h4>
+                        <span class="acc-tpl-code">F-08/10 F5 · شؤون العاملين</span>
+                      </div>
+                    </div>
+                    <p class="acc-tpl-desc">مسير الرواتب: أساسي، بدلات، أوفرتايم، استقطاعات غياب وتأمينات، وصافي الراتب.</p>
+                  </div>
+                  <button class="btn small primary launch-acc-tpl-btn" data-tpl="acc-payroll-sheet">فتح وتحرير النموذج ↗</button>
+                </div>
+
+                <div class="acc-tpl-card">
+                  <div>
+                    <div class="acc-tpl-head">
+                      <span class="acc-tpl-icon">💰</span>
+                      <div>
+                        <h4 class="acc-tpl-title">طلب سلفة مالية مؤقتة</h4>
+                        <span class="acc-tpl-code">F-08/10 F6 · حفظ 3 سنوات</span>
+                      </div>
+                    </div>
+                    <p class="acc-tpl-desc">طلب سلفة على الراتب وتحديد الأقساط الشهرية ورصيد السلف السابقة.</p>
+                  </div>
+                  <button class="btn small primary launch-acc-tpl-btn" data-tpl="acc-advance-request">فتح وتحرير النموذج ↗</button>
+                </div>
+
+                <div class="acc-tpl-card">
+                  <div>
+                    <div class="acc-tpl-head">
+                      <span class="acc-tpl-icon">🧾</span>
+                      <div>
+                        <h4 class="acc-tpl-title">سجل فحص الفواتير والضريبة</h4>
+                        <span class="acc-tpl-code">F-08/10 F7 · فحص ضريبي</span>
+                      </div>
+                    </div>
+                    <p class="acc-tpl-desc">مطابقة الفواتير الإلكترونية، ضريبة 14%، وخصم 1% مع أوامر التوريد.</p>
+                  </div>
+                  <button class="btn small primary launch-acc-tpl-btn" data-tpl="acc-tax-audit">فتح وتحرير النموذج ↗</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Hook up modal close
+    $("#closeAccModalBtn").onclick = () => { modal.hidden = true; };
+    modal.onclick = (e) => { if (e.target === modal) modal.hidden = true; };
+
+    // Hook up tab buttons
+    const tabs = ["tafqeet", "calc", "forms"];
+    tabs.forEach(tId => {
+      const b = $(`#accTabBtn${tId.charAt(0).toUpperCase() + tId.slice(1)}`);
+      if (b) {
+        b.onclick = () => {
+          $$(".acc-tab-btn", modal).forEach(x => x.classList.remove("active"));
+          b.classList.add("active");
+          $("#accTabContentTafqeet").hidden = tId !== "tafqeet";
+          $("#accTabContentCalc").hidden = tId !== "calc";
+          $("#accTabContentForms").hidden = tId !== "forms";
+        };
+      }
+    });
+
+    // Tafqeet logic
+    const tafqeetInput = $("#tafqeetAmountInput");
+    const tafqeetCurr = $("#tafqeetCurrencySelect");
+    const tafqeetOut = $("#tafqeetOutputText");
+
+    function refreshTafqeet() {
+      const val = parseFloat(tafqeetInput.value);
+      const curr = tafqeetCurr.value;
+      const text = tafqeet(val, curr);
+      tafqeetOut.textContent = text;
+    }
+
+    if (tafqeetInput) tafqeetInput.oninput = refreshTafqeet;
+    if (tafqeetCurr) tafqeetCurr.onchange = refreshTafqeet;
+
+    $$(".acc-preset-btn", modal).forEach(btn => {
+      btn.onclick = () => {
+        const v = btn.getAttribute("data-val");
+        tafqeetInput.value = v;
+        refreshTafqeet();
+      };
+    });
+
+    // Copy Tafqeet
+    const copyTafqeetBtn = $("#copyTafqeetBtn");
+    if (copyTafqeetBtn) {
+      copyTafqeetBtn.onclick = () => {
+        const text = tafqeetOut.textContent;
+        navigator.clipboard.writeText(text).then(() => {
+          showToast("تم نسخ التفقيط إلى الحافظة بنجاح 📋", "✍️");
+        });
+      };
+    }
+
+    // Insert Tafqeet into open document
+    const insertTafqeetBtn = $("#insertTafqeetBtn");
+    if (insertTafqeetBtn) {
+      insertTafqeetBtn.onclick = () => {
+        if (!cur) {
+          showToast("يرجى فتح مستند أولاً لإدراج التفقيط به", "ℹ️");
+          return;
+        }
+        const text = tafqeetOut.textContent;
+        let inserted = false;
+        if (cur.blocks) {
+          for (let b of cur.blocks) {
+            if (b.type === "table" && b.rows) {
+              for (let r of b.rows) {
+                if (Array.isArray(r) && r.some(cell => typeof cell === "string" && (cell.includes("فقط") || cell.includes("وقدره")))) {
+                  for (let i = 0; i < r.length; i++) {
+                    if (typeof r[i] === "string" && (r[i].includes("فقط") || r[i].includes("وقدره"))) {
+                      r[i] = text;
+                      inserted = true;
+                      break;
+                    }
+                  }
+                }
+                if (inserted) break;
+              }
+            }
+            if (inserted) break;
+          }
+          if (!inserted) {
+            cur.blocks.push({ type: "box", tone: "info", text: "المبلغ فقط وقدره: " + text });
+            inserted = true;
+          }
+        }
+        flushSave();
+        renderEditor();
+        modal.hidden = true;
+        showToast("تم إدراج النص المفقط بالوثيقة بنجاح ✍️", "✅");
+      };
+    }
+
+    // Create Voucher with current Tafqeet
+    const createVoucherWithTafqeetBtn = $("#createVoucherWithTafqeetBtn");
+    if (createVoucherWithTafqeetBtn) {
+      createVoucherWithTafqeetBtn.onclick = () => {
+        const val = parseFloat(tafqeetInput.value) || 0;
+        const text = tafqeetOut.textContent;
+        startTemplateById("acc-payment-voucher");
+        if (cur && cur.blocks && cur.blocks[0] && cur.blocks[0].rows) {
+          cur.blocks[0].rows[1][1] = fmtNum(val) + " ج.م";
+          cur.blocks[0].rows[2][1] = text;
+          flushSave();
+          renderEditor();
+        }
+      };
+    }
+
+    // Calculator Logic
+    const calcBase = $("#calcBaseInput");
+    const calcVatCheck = $("#calcOptVat");
+    const calcRetentionCheck = $("#calcOptRetention");
+    const calcAdvanceCheck = $("#calcOptAdvance");
+
+    function refreshCalc() {
+      const base = parseFloat(calcBase.value) || 0;
+      const vatRate = calcVatCheck.checked ? 0.14 : 0;
+      const whtRadio = document.querySelector('input[name="calcWht"]:checked');
+      const whtRate = whtRadio ? parseFloat(whtRadio.value) || 0 : 0;
+      const retentionRate = calcRetentionCheck.checked ? 0.05 : 0;
+      const advanceRate = calcAdvanceCheck.checked ? 0.10 : 0;
+
+      const vatVal = base * vatRate;
+      const totalWithVat = base + vatVal;
+      const whtVal = base * whtRate;
+      const retentionVal = base * retentionRate;
+      const advanceVal = base * advanceRate;
+      const netVal = totalWithVat - whtVal - retentionVal - advanceVal;
+
+      $("#calcRowBase").textContent = fmtNum(base) + " ج.م";
+      $("#calcRowVat").textContent = (vatVal > 0 ? "+" : "") + fmtNum(vatVal) + " ج.م";
+      $("#calcRowTotalWithVat").textContent = fmtNum(totalWithVat) + " ج.م";
+      $("#calcRowWht").textContent = (whtVal > 0 ? "-" : "") + fmtNum(whtVal) + " ج.م";
+      $("#calcRowRetention").textContent = (retentionVal > 0 ? "-" : "") + fmtNum(retentionVal) + " ج.م";
+      $("#calcRowAdvance").textContent = (advanceVal > 0 ? "-" : "") + fmtNum(advanceVal) + " ج.م";
+      $("#calcRowNet").textContent = fmtNum(netVal) + " ج.م";
+
+      const netTafqeet = tafqeet(netVal, "EGP");
+      $("#calcNetTafqeet").textContent = netTafqeet;
+    }
+
+    if (calcBase) calcBase.oninput = refreshCalc;
+    if (calcVatCheck) calcVatCheck.onchange = refreshCalc;
+    if (calcRetentionCheck) calcRetentionCheck.onchange = refreshCalc;
+    if (calcAdvanceCheck) calcAdvanceCheck.onchange = refreshCalc;
+    $$('input[name="calcWht"]', modal).forEach(r => r.onchange = refreshCalc);
+
+    refreshCalc();
+
+    // Copy Calc Summary
+    const copyCalcSummaryBtn = $("#copyCalcSummaryBtn");
+    if (copyCalcSummaryBtn) {
+      copyCalcSummaryBtn.onclick = () => {
+        const base = $("#calcRowBase").textContent;
+        const vat = $("#calcRowVat").textContent;
+        const tot = $("#calcRowTotalWithVat").textContent;
+        const wht = $("#calcRowWht").textContent;
+        const ret = $("#calcRowRetention").textContent;
+        const adv = $("#calcRowAdvance").textContent;
+        const net = $("#calcRowNet").textContent;
+        const taf = $("#calcNetTafqeet").textContent;
+
+        const summary = `بيان الحسبة المالية - سفن هاندز للخدمات الهندسية والمقاولات:
+• القيمة الأساسية: ${base}
+• ضريبة القيمة المضافة 14%: ${vat}
+• الإجمالي شامل الضريبة: ${tot}
+• خصم ضريبة أ.ت.ص: ${wht}
+• تأمين ضمان الأعمال 5%: ${ret}
+• استرداد دفعة مقدمة 10%: ${adv}
+• صافي المبلغ المستحق للصرف: ${net}
+• التفقيط: ${taf}`;
+
+        navigator.clipboard.writeText(summary).then(() => {
+          showToast("تم نسخ تفاصيل الحسبة المالية بنجاح 📊", "📋");
+        });
+      };
+    }
+
+    // Create Voucher from Calc
+    const createVoucherFromCalcBtn = $("#createVoucherFromCalcBtn");
+    if (createVoucherFromCalcBtn) {
+      createVoucherFromCalcBtn.onclick = () => {
+        const net = $("#calcRowNet").textContent;
+        const taf = $("#calcNetTafqeet").textContent;
+        startTemplateById("acc-payment-voucher");
+        if (cur && cur.blocks && cur.blocks[0] && cur.blocks[0].rows) {
+          cur.blocks[0].rows[1][1] = net;
+          cur.blocks[0].rows[2][1] = taf;
+          flushSave();
+          renderEditor();
+        }
+      };
+    }
+
+    // Create IPC from Calc
+    const createIpcFromCalcBtn = $("#createIpcFromCalcBtn");
+    if (createIpcFromCalcBtn) {
+      createIpcFromCalcBtn.onclick = () => {
+        startTemplateById("acc-contractor-cert");
+      };
+    }
+
+    // Switch to accounting partition button
+    const switchAccPartBtn = $("#switchAccPartitionBtn");
+    if (switchAccPartBtn) {
+      switchAccPartBtn.onclick = () => {
+        modal.hidden = true;
+        setPartition("accounting");
+      };
+    }
+
+    // Launch template buttons in forms tab
+    $$(".launch-acc-tpl-btn", modal).forEach(btn => {
+      btn.onclick = () => {
+        const tplId = btn.getAttribute("data-tpl");
+        startTemplateById(tplId);
+      };
+    });
+  }
+
   /* ---------- Department Partitions & Access Control ---------- */
   const PARTITION_KEY = "sh_active_partition";
   let activePartition = "all";
@@ -1119,6 +1763,27 @@
         { label: "🏢 مذكرة قرار إداري", tpl: "mgmt-decision" },
         { label: "📑 سجل المستندات المركزي", action: () => openRegistryModal(), highlight: true }
       ]
+    },
+    accounting: {
+      id: "accounting",
+      icon: "💰",
+      ar: "الإدارة المالية والحسابات",
+      en: "Finance & Accounting",
+      subAr: "سندات الصرف والقبض، تسوية العهد النقدية، مستخلصات المقاولين، ومسير الرواتب",
+      subEn: "Payment/receipt vouchers, petty cash, interim contractor certificates, payroll",
+      descAr: "قسم الحسابات والإدارة المالية: إصدار ومراجعة سندات الصرف والقبض، استمارات تسوية العهد النقدية، مستخلصات مقاولي الباطن والمشاريع الهندسية، مراجعة الفواتير الضريبية وتطبيق التفقيط التلقائي.",
+      descEn: "Finance & Accounting: Cash/cheque vouchers, petty cash reconciliation, interim contractor certificates, tax invoice audit, and automatic Arabic currency tafqeet.",
+      managerAr: "رئيس الحسابات والإدارة المالية · SEVEN HANDS",
+      managerEn: "Chief Accountant & Finance Department",
+      quickActions: [
+        { label: "🧮 حاسبة المحاسب والتفقيط", action: () => openAccountingToolsModal(), highlight: true },
+        { label: "💵 سند صرف نقدية / شيك", tpl: "acc-payment-voucher" },
+        { label: "💳 سند قبض نقدية / شيك", tpl: "acc-receipt-voucher" },
+        { label: "💼 تسوية عهدة مالية", tpl: "acc-petty-cash" },
+        { label: "🏗️ مستخلص جاري مقاولين", tpl: "acc-contractor-cert" },
+        { label: "👥 مسير رواتب ومستحقات", tpl: "acc-payroll-sheet" },
+        { label: "🧾 فحص فواتير وضريبة 14%", tpl: "acc-tax-audit" }
+      ]
     }
   };
 
@@ -1158,6 +1823,11 @@
 
     if (bylawsBtn) {
       bylawsBtn.onclick = openBylawsModal;
+    }
+
+    const accBtn = $("#headerAccountingBtn");
+    if (accBtn) {
+      accBtn.onclick = openAccountingToolsModal;
     }
 
     if (btn && menu) {
@@ -1204,6 +1874,7 @@
     // Filter categories list
     const categories = [
       { id: "all", label: t("all"), icon: "⚡" },
+      { id: "accounting", label: t("deptAccounting"), icon: "💰" },
       { id: "hr", label: t("deptHr"), icon: "👥" },
       { id: "it", label: t("deptIt"), icon: "💻" },
       { id: "procurement", label: t("deptProcurement"), icon: "🛒" },
@@ -1334,20 +2005,7 @@
             if (qa.action) {
               qa.action();
             } else if (qa.tpl) {
-              const tp = SH.TEMPLATES.find(x => x.id === qa.tpl || x.prefix === qa.tpl);
-              if (tp) {
-                const newDoc = tp.make();
-                newDoc.id = uid();
-                newDoc.name = ui === "ar" ? tp.ar : tp.en;
-                newDoc.tpl = tp.id;
-                newDoc.dept = tp.dept || "it";
-                const nextSeq = allDocs.length + 1;
-                newDoc.docNumber = `${tp.prefix || "SH-DOC"}-2026-${String(nextSeq).padStart(4, "0")}`;
-                newDoc.status = "draft";
-                store.put(newDoc);
-                showToast(t("savedOk"), "💾");
-                openDoc(newDoc);
-              }
+              startTemplateById(qa.tpl);
             }
           }
         };

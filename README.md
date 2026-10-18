@@ -8,9 +8,10 @@
 Comprehensive Enterprise Operations, Documents, ISO Templates & Bylaws Portal for **SEVEN HANDS For Engineering Services & Construction**.
 
 ## Key Features
-- **Corporate Department Partitions**: Dedicated workspace partitions for **Engineering & Projects**, **Human Resources & Bylaws**, **Procurement & Pricing**, **IT Operations**, and **Executive Management & Secretary**.
+- **Corporate Department Partitions**: Dedicated workspace partitions for **Finance & Accounting**, **Engineering & Projects**, **Human Resources & Bylaws**, **Procurement & Pricing**, **IT Operations**, and **Executive Management & Secretary**.
+- **Accountant Suite & Arabic Currency Tafqeet**: Interactive financial calculator and Arabic text converter (التفقيط المالي باللغة العربية) with live calculation of VAT 14%, WHT 1%/3%, 5% retention, and 10% advance payments.
 - **Interactive HR Bylaws Reader**: Complete 7-page interactive digitization of the official SEVEN HANDS HR Policy with search, article tabs, and instant print.
-- **35 Approved ISO Templates**: Full library of official company forms with unified ISO headers (`F-08/10 A/B/C`, retention 3 years, release date 01/10/2024, revision 1/0) for leaves, permissions, overtime sheets (1.4x), attendance rosters, resignation clearance, purchase orders, and technical handovers.
+- **42 Approved ISO Templates**: Full library of official company forms with unified ISO headers (`F-08/10 A/B/C/F`, retention 3-5 years) including cash/cheque payment vouchers, receipt vouchers, petty cash reconciliation, subcontractor interim payment certificates, monthly payroll, advance requests, tax audits, leaves, overtime sheets (1.4x), and procurement orders.
 - **Central Document Registry**: Auto-generated corporate document serial numbering (`SH-DOC-2026-XXXX`).
 - **Interactive Routing & Navigation**: Full browser back/forward and mobile swipe support between sheets and the template library.
 - **WhatsApp & Social Cards**: Rich 1200x630 link preview with official branding and 1-click WhatsApp document sharing.

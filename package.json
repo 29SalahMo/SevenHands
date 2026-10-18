@@ -21,5 +21,9 @@
     "pdf"
   ],
   "author": "Eng. Salah <29SalahMo> (SEVEN HANDS IT Department)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0"
+  }
 }
