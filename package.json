@@ -1,0 +1,22 @@
+{
+  "name": "seven-hands-docs",
+  "version": "1.0.0",
+  "description": "SEVEN HANDS Docs - Engineering Documents & IT Management System",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "serve": "node server.js",
+    "build": "echo Static site ready"
+  },
+  "keywords": [
+    "seven-hands",
+    "engineering",
+    "templates",
+    "docx",
+    "exceljs",
+    "pdf",
+    "it-department"
+  ],
+  "author": "Eng. Salah <29SalahMo> (SEVEN HANDS IT Department)",
+  "license": "MIT"
+}

@@ -14,7 +14,7 @@
 <!-- WhatsApp & Open Graph Metadata -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://sevenhands-eta.vercel.app/">
-<meta property="og:site_name" content="SEVEN HANDS FOR ENGINEERING SERVICES &amp; CONSTRUCTION">
+<meta property="og:site_name" content="SEVEN HANDS FOR ENGINEERING SERVICES & CONSTRUCTION">
 <meta property="og:title" content="SEVEN HANDS Docs | محرر المستندات والقوالب الهندسية">
 <meta property="og:description" content="منظومة متقدمة لإعداد ومقارنة عروض الأسعار، طلبات الشراء، ونماذج الفحص لقسم تكنولوجيا المعلومات - سفن هاندز للخدمات الهندسية والمقاولات.">
 <meta property="og:image" content="https://sevenhands-eta.vercel.app/og-image.png">
@@ -22,7 +22,7 @@
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="SEVEN HANDS Engineering Services &amp; Construction">
+<meta property="og:image:alt" content="SEVEN HANDS Engineering Services & Construction">
 
 <!-- Twitter Cards -->
 <meta name="twitter:card" content="summary_large_image">
@@ -61,7 +61,7 @@
 </head>
 <body>
 
-<!-- Interactive Preloader Loading Screen -->
+<!-- Interactive Preloader Loading Screen (Can be bypassed instantly) -->
 <div id="appLoader" class="app-loader" role="dialog" aria-modal="true" aria-label="تحميل المنظومة">
   <div class="loader-backdrop"></div>
   <div class="loader-grid-canvas"></div>
@@ -70,12 +70,12 @@
   <div class="loader-content">
     <div class="loader-brand-box">
       <div class="loader-logo-frame">
-        <img src="logo.png" alt="SEVEN HANDS Logo" class="loader-brand-logo">
+        <img src="logo.png" alt="SEVEN HANDS Engineering Services & Construction" class="loader-brand-logo">
         <span class="loader-pulse-ring"></span>
         <span class="loader-scanner-line"></span>
       </div>
       <div class="loader-brand-title">SEVEN HANDS</div>
-      <div class="loader-brand-sub">FOR ENGINEERING SERVICES &amp; CONSTRUCTION</div>
+      <div class="loader-brand-sub">FOR ENGINEERING SERVICES & CONSTRUCTION</div>
       <div class="loader-badge">
         <span class="badge-dot"></span>
         <span id="loaderDeptLabel">IT Department · Documents System</span>
@@ -107,7 +107,7 @@
 
 <header class="app no-print">
   <div class="brand" id="brandHeaderLink" role="button" tabindex="0" title="العودة للرئيسية">
-    <img src="logo.png" alt="SEVEN HANDS">
+    <img src="logo.png" alt="SEVEN HANDS Engineering Services & Construction">
     <div>
       <b id="appTitle">SEVEN HANDS Docs</b>
       <small id="appSub">سفن هاندز | قسم تكنولوجيا المعلومات</small>
@@ -117,6 +117,10 @@
     <button class="btn back-nav-btn" id="homeBtn" hidden aria-label="العودة إلى القوالب">
       <span class="back-arrow-icon">←</span>
       <span id="homeBtnLabel">الرئيسية</span>
+    </button>
+    <button class="btn ghost-white" id="headerRegistryBtn" title="عرض وتصدير سجل المستندات المركزي">
+      <span>📑</span>
+      <span id="headerRegistryLabel">سجل المستندات</span>
     </button>
     <button class="btn ghost-white" id="uiLang" title="تغيير اللغة / Switch Language">EN</button>
   </div>
@@ -133,43 +137,54 @@
     <div class="wa-menu-head">
       <div class="wa-menu-title">
         <span class="wa-pill-dot"></span>
-        <span>مشاركة وتواصل سريع</span>
+        <span id="waMenuHeaderTitle">مشاركة وتواصل سريع</span>
       </div>
-      <button id="closeWaMenuBtn" class="wa-menu-close" aria-label="إغلاق">✕</button>
+      <div class="wa-head-controls">
+        <button id="minimizeWaBtn" class="wa-head-btn" title="تصغير الزر" aria-label="تصغير">−</button>
+        <button id="closeWaMenuBtn" class="wa-head-btn" title="إغلاق القائمة" aria-label="إغلاق">✕</button>
+      </div>
     </div>
     <div class="wa-menu-body">
-      <a id="waShareDocLink" href="#" class="wa-menu-item" target="_blank" rel="noopener">
+      <a id="waShareDocLink" href="https://api.whatsapp.com/send?text=SEVEN%20HANDS%20Docs" class="wa-menu-item" target="_blank" rel="noopener">
         <div class="wa-item-icon">💬</div>
         <div class="wa-item-text">
           <strong id="waDocTitle">مشاركة المستند الحالي عبر واتساب</strong>
-          <small>إرسال رابط الورقة الحالية مباشرة للزملاء</small>
+          <small id="waDocSub">إرسال رابط الورقة الحالية مباشرة للزملاء</small>
         </div>
       </a>
       <a id="waShareSiteLink" href="https://api.whatsapp.com/send?text=%D9%85%D9%86%D8%B8%D9%88%D9%85%D8%A9%20%D8%B3%D9%81%D9%86%20%D9%87%D8%A7%D9%86%D8%AF%D8%B2%20%D9%84%D9%84%D9%86%D9%85%D8%A7%D8%B0%D8%AC%20%D9%88%D8%A7%D9%84%D8%A3%D9%88%D8%B1%D8%A7%D9%82%20%D8%A7%D9%84%D9%87%D9%86%D8%AF%D8%B3%D9%8A%D8%A9%20-%20SEVEN%20HANDS%20Docs" class="wa-menu-item" target="_blank" rel="noopener">
         <div class="wa-item-icon">🌐</div>
         <div class="wa-item-text">
-          <strong>مشاركة رابط المنظومة</strong>
-          <small>مشاركة رابط الموقع العام عبر واتساب</small>
+          <strong id="waSiteTitle">مشاركة رابط المنظومة</strong>
+          <small id="waSiteSub">مشاركة رابط الموقع العام عبر واتساب</small>
         </div>
       </a>
       <button id="quickCopyLinkBtn" class="wa-menu-item" type="button">
         <div class="wa-item-icon">🔗</div>
         <div class="wa-item-text">
-          <strong>نسخ رابط الصفحة الحالية</strong>
-          <small>حفظ الرابط المباشر في الحافظة</small>
+          <strong id="waCopyTitle">نسخ رابط الصفحة الحالية</strong>
+          <small id="waCopySub">حفظ الرابط المباشر في الحافظة</small>
         </div>
       </button>
     </div>
   </div>
 
-  <button id="floatingWaTrigger" class="floating-wa-btn" type="button" aria-label="واتساب ومشاركة">
-    <span class="floating-wa-pulse"></span>
-    <svg viewBox="0 0 24 24" class="wa-svg-icon" width="26" height="26" fill="currentColor">
-      <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.44 0-2.86-.38-4.11-1.11l-.29-.17-3.12.82.83-3.04-.19-.31a8.214 8.214 0 0 1-1.26-4.43c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.64c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.4-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.78.6.26 1.07.41 1.44.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.23-.17-.48-.29z"/>
-    </svg>
-    <span class="floating-wa-tag">واتساب</span>
-  </button>
+  <div class="floating-wa-row">
+    <button id="floatingWaTrigger" class="floating-wa-btn" type="button" aria-label="واتساب ومشاركة">
+      <span class="floating-wa-pulse"></span>
+      <svg viewBox="0 0 24 24" class="wa-svg-icon" width="24" height="24" fill="currentColor">
+        <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.44 0-2.86-.38-4.11-1.11l-.29-.17-3.12.82.83-3.04-.19-.31a8.214 8.214 0 0 1-1.26-4.43c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.64c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.4-1.75-.15-.25-.02-.39.11-.51.11-.11.25-.29.38-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.78.6.26 1.07.41 1.44.53.6.19 1.15.16 1.58.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.11-.23-.17-.48-.29z"/>
+      </svg>
+      <span class="floating-wa-tag" id="floatingWaLabel">واتساب</span>
+    </button>
+    <button id="floatingWaHideBtn" class="floating-wa-dismiss-btn" type="button" title="إخفاء الزر لتفريغ الشاشة" aria-label="إخفاء">✕</button>
+  </div>
 </div>
+
+<button id="restoreWaBtn" class="wa-restore-btn no-print" hidden type="button" title="إظهار زر الواتساب">
+  <span>💬</span>
+  <span id="restoreWaLabel">واتساب</span>
+</button>
 
 <!-- Interactive Toast Container -->
 <div id="toastContainer" class="toast-container" aria-live="polite"></div>

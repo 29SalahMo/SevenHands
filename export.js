@@ -90,6 +90,14 @@
     const fillC = (h) => ({ type: "pattern", pattern: "solid", fgColor: { argb: "FF" + h } });
     let r = 1; const merge = () => { ws.mergeCells(r, 1, r, ncol); return ws.getCell(r, 1); };
     let c = merge(); c.value = d.title; c.font = { name: "Arial", size: 18, bold: true, color: { argb: "FF" + NAVY } }; c.alignment = al(); ws.getRow(r).height = 30; r++;
+    if (d.docNumber) {
+      c = merge();
+      c.value = (rtl ? "كود المستند: " : "Doc Code: ") + d.docNumber + "  |  " + (rtl ? "الحالة: " : "Status: ") + (d.status === "approved" ? (rtl ? "معتمد" : "Approved") : d.status === "review" ? (rtl ? "قيد المراجعة" : "Under Review") : (rtl ? "مسودة" : "Draft"));
+      c.font = { name: "Arial", size: 10, bold: true, color: { argb: "FF" + NAVY } };
+      c.alignment = al();
+      ws.getRow(r).height = 18;
+      r++;
+    }
     if (d.subtitle) { c = merge(); c.value = d.subtitle; c.font = { name: "Arial", size: 10, color: { argb: "FF5B6B7A" } }; c.alignment = al(); r++; }
     d.meta.forEach((m) => { ws.getCell(r, 1).value = m.l; ws.getCell(r, 1).font = { name: "Arial", bold: true, color: { argb: "FF5B6B7A" } }; ws.getCell(r, 1).alignment = al();
       ws.mergeCells(r, 2, r, Math.min(ncol, 4)); const v = ws.getCell(r, 2); v.value = m.v; v.alignment = al(); v.border = { bottom: thin }; r++; });
@@ -114,6 +122,60 @@
         ws.getRow(hr).getCell(1).alignment = al({ horizontal: "center" }); r++;
       }
     }
+    const buf = await wb.xlsx.writeBuffer();
+    return new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+  }
+
+  /* ---------------- REGISTRY XLSX ---------------- */
+  async function toRegistryXlsx(docsList) {
+    const wb = new ExcelJS.Workbook();
+    wb.creator = "SEVEN HANDS IT Department";
+    const ws = wb.addWorksheet("سجل المستندات المركزي", {
+      views: [{ rightToLeft: true, showGridLines: true }],
+      pageSetup: { orientation: "landscape", paperSize: 9, fitToPage: true }
+    });
+
+    ws.columns = [
+      { header: "م", key: "idx", width: 6 },
+      { header: "كود المستند", key: "code", width: 24 },
+      { header: "عنوان المستند", key: "title", width: 40 },
+      { header: "القسم", key: "dept", width: 18 },
+      { header: "الحالة", key: "status", width: 16 },
+      { header: "المُعد", key: "author", width: 24 },
+      { header: "المُراجع", key: "reviewer", width: 24 },
+      { header: "تاريخ آخر تعديل", key: "updated", width: 20 }
+    ];
+
+    const headRow = ws.getRow(1);
+    headRow.height = 28;
+    headRow.font = { name: "Arial", size: 11, bold: true, color: { argb: "FFFFFFFF" } };
+    headRow.alignment = { horizontal: "center", vertical: "middle" };
+    headRow.eachCell((cell) => {
+      cell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF094878" } };
+      cell.border = {
+        top: { style: "thin", color: { argb: "FF8A92A0" } },
+        bottom: { style: "thin", color: { argb: "FF8A92A0" } },
+        left: { style: "thin", color: { argb: "FF8A92A0" } },
+        right: { style: "thin", color: { argb: "FF8A92A0" } }
+      };
+    });
+
+    docsList.forEach((d, i) => {
+      const row = ws.addRow({
+        idx: i + 1,
+        code: d.docNumber || "SH-DOC-2026-" + String(i + 1).padStart(4, "0"),
+        title: d.name || d.title || "مستند بدون عنوان",
+        dept: d.dept || "عام",
+        status: d.status === "approved" ? "معتمد" : d.status === "review" ? "قيد المراجعة" : "مسودة",
+        author: "م. صلاح (مهندس علوم حاسب)",
+        reviewer: "م. عصام (مدير IT)",
+        updated: new Date(d.updated || Date.now()).toLocaleDateString("ar-EG")
+      });
+      row.height = 22;
+      row.alignment = { horizontal: "center", vertical: "middle" };
+      row.getCell("title").alignment = { horizontal: "right", vertical: "middle" };
+    });
+
     const buf = await wb.xlsx.writeBuffer();
     return new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
   }
@@ -159,5 +221,5 @@
     for (let k = 0; k < n0; k++) pdf.deletePage(1);
     pdf.setProperties({ title: d.title, creator: "SEVEN HANDS" }); pdf.save(filename);
   }
-  window.SHEXPORT = { docx: toDocx, xlsx: toXlsx, pdf: toPdf };
+  window.SHEXPORT = { docx: toDocx, xlsx: toXlsx, pdf: toPdf, registryXlsx: toRegistryXlsx };
 })();

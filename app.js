@@ -75,13 +75,15 @@
       delCol: "حذف العمود",
       autosave: "الحفظ التلقائي نشط محلياً",
       tip: "اضغط أي نص أو خلية للتعديل الفوري · يتم الحساب تلقائياً",
-      searchPlaceholder: "ابحث بالاسم أو الوصف في القوالب والمستندات المحفوظة...",
-      all: "الكل",
-      catPrices: "🏬 مقارنات الأسعار",
-      catBuilds: "🖥️ تجميعات ومواصفات",
-      catOrders: "✉️ عروض ومشتريات",
-      catInventory: "🗂️ جرد واحتياطي",
-      catBlank: "📄 أوراق فارغة",
+      searchPlaceholder: "ابحث بالاسم أو الوصف أو القسم في القوالب والمستندات المحفوظة...",
+      all: "⚡ الكل",
+      deptIt: "💻 تكنولوجيا المعلومات",
+      deptProcurement: "🛒 المشتريات والعقود",
+      deptHr: "👥 الموارد البشرية",
+      deptSecretary: "📋 السكرتارية والإدارة",
+      deptEngineering: "📐 الخدمات الهندسية",
+      deptManagement: "🏢 الإدارة العامة",
+      deptBlank: "📄 أوراق فارغة",
       catSaved: "💾 مستنداتي المحفوظة",
       statTemplates: "قوالب هندسية معتمدة",
       statSaved: "أوراق محفوظة بالمتصفح",
@@ -93,7 +95,32 @@
       noResults: "لا توجد نتائج تطابق بحثك.",
       clearSearch: "مسح البحث",
       duplicate: "نسخ كجديد",
-      startDoc: "بدء التعديل ↗"
+      startDoc: "بدء التعديل ↗",
+      docNumber: "كود المستند",
+      docStatus: "حالة الاعتماد",
+      docDept: "القسم التابع",
+      statusDraft: "مسودة",
+      statusReview: "قيد المراجعة (م. عصام)",
+      statusApproved: "معتمد (الإدارة العامة)",
+      registry: "سجل المستندات المركزي",
+      registryShort: "سجل المستندات",
+      registryDesc: "قاعدة بيانات لجميع المستندات والنماذج المحفوظة محلياً مع تصدير مباشر إلى Excel",
+      exportRegistry: "تصدير السجل إلى Excel (.xlsx)",
+      noSavedDocs: "لا توجد مستندات محفوظة بالسجل حتى الآن.",
+      close: "إغلاق",
+      code: "كود المستند",
+      title: "العنوان",
+      author: "المُعد",
+      reviewer: "المُراجع",
+      status: "الحالة",
+      actions: "إجراءات",
+      waLabel: "واتساب",
+      waMenuTitle: "مشاركة وتواصل سريع",
+      waDocSub: "إرسال رابط الورقة الحالية مباشرة للزملاء",
+      waSiteTitle: "مشاركة رابط المنظومة",
+      waSiteSub: "مشاركة رابط الموقع العام عبر واتساب",
+      waCopyTitle: "نسخ رابط الصفحة الحالية",
+      waCopySub: "حفظ الرابط المباشر في الحافظة"
     },
     en: {
       app: "Engineering Documents & Templates Editor",
@@ -163,13 +190,15 @@
       delCol: "Delete Column",
       autosave: "Autosaves locally in this browser",
       tip: "Click any cell or text to edit directly · Calculations update live",
-      searchPlaceholder: "Search templates and saved sheets...",
-      all: "All",
-      catPrices: "🏬 Price Comparisons",
-      catBuilds: "🖥️ PC Builds",
-      catOrders: "✉️ Quotations & Orders",
-      catInventory: "🗂️ Spares & Inventory",
-      catBlank: "📄 Blank Documents",
+      searchPlaceholder: "Search templates, departments and saved sheets...",
+      all: "⚡ All",
+      deptIt: "💻 IT Department",
+      deptProcurement: "🛒 Procurement & Quotes",
+      deptHr: "👥 Human Resources",
+      deptSecretary: "📋 Secretary & Admin",
+      deptEngineering: "📐 Engineering Services",
+      deptManagement: "🏢 General Management",
+      deptBlank: "📄 Blank Documents",
       catSaved: "💾 Saved Documents",
       statTemplates: "Approved Templates",
       statSaved: "Saved in Browser",
@@ -181,7 +210,32 @@
       noResults: "No results match your search.",
       clearSearch: "Clear Search",
       duplicate: "Duplicate",
-      startDoc: "Open Sheet ↗"
+      startDoc: "Open Sheet ↗",
+      docNumber: "Document Ref Code",
+      docStatus: "Approval Status",
+      docDept: "Department",
+      statusDraft: "Draft",
+      statusReview: "Under Review (Eng. Esam)",
+      statusApproved: "Approved (Management)",
+      registry: "Central Document Register",
+      registryShort: "Document Register",
+      registryDesc: "Central registry of all saved documents and engineering templates with Excel export",
+      exportRegistry: "Export Register to Excel (.xlsx)",
+      noSavedDocs: "No saved documents in registry yet.",
+      close: "Close",
+      code: "Doc Code",
+      title: "Title",
+      author: "Prepared by",
+      reviewer: "Reviewed by",
+      status: "Status",
+      actions: "Actions",
+      waLabel: "WhatsApp",
+      waMenuTitle: "Quick Share & Connect",
+      waDocSub: "Send direct sheet link to colleagues",
+      waSiteTitle: "Share Platform Link",
+      waSiteSub: "Share general platform link via WhatsApp",
+      waCopyTitle: "Copy Page Link",
+      waCopySub: "Copy direct page URL to clipboard"
     }
   };
 
@@ -274,6 +328,24 @@
     $("#appSub").textContent = t("sub");
     $("#uiLang").textContent = ui === "ar" ? "EN" : "عربي";
     $("#homeBtnLabel").textContent = t("back");
+
+    const regLbl = $("#headerRegistryLabel");
+    if (regLbl) regLbl.textContent = t("registryShort");
+    const waLbl = $("#floatingWaLabel");
+    if (waLbl) waLbl.textContent = t("waLabel");
+    const resWaLbl = $("#restoreWaLabel");
+    if (resWaLbl) resWaLbl.textContent = t("waLabel");
+    const waHeadTitle = $("#waMenuHeaderTitle");
+    if (waHeadTitle) waHeadTitle.textContent = t("waMenuTitle");
+    const waSiteTitle = $("#waSiteTitle");
+    if (waSiteTitle) waSiteTitle.textContent = t("waSiteTitle");
+    const waSiteSub = $("#waSiteSub");
+    if (waSiteSub) waSiteSub.textContent = t("waSiteSub");
+    const waCopyTitle = $("#waCopyTitle");
+    if (waCopyTitle) waCopyTitle.textContent = t("waCopyTitle");
+    const waCopySub = $("#waCopySub");
+    if (waCopySub) waCopySub.textContent = t("waCopySub");
+
     if (cur) renderEditor(); else renderHome();
     updateWaLinks();
   }
@@ -293,10 +365,8 @@
     flushSave();
     const currentHash = location.hash.replace(/^#/, "").trim();
     if (currentHash && currentHash !== "home") {
-      // Use browser history to preserve natural back/forward navigation
       if (window.history.length > 1) {
         window.history.back();
-        // Fallback: If hash hasn't cleared after 160ms, explicitly clear hash
         setTimeout(() => {
           const check = location.hash.replace(/^#/, "").trim();
           if (check && check !== "home") {
@@ -325,7 +395,6 @@
           openDoc(doc, false);
         }
       } else {
-        // Document ID not found -> return to home cleanly
         cur = null;
         renderHome();
       }
@@ -348,17 +417,20 @@
   function updateWaLinks() {
     const waShareDocLink = $("#waShareDocLink");
     const waDocTitle = $("#waDocTitle");
+    const waDocSub = $("#waDocSub");
     if (!waShareDocLink) return;
 
     const currentUrl = getLiveUrl();
     if (cur) {
-      const docName = cur.name || cur.title || (ui === "ar" ? "ورقة عمل" : "Document");
+      const docCode = cur.docNumber ? ` [${cur.docNumber}]` : "";
+      const docName = (cur.name || cur.title || (ui === "ar" ? "ورقة عمل" : "Document")) + docCode;
       const msg = encodeURIComponent(
-        (ui === "ar" ? "ورقة عمل من سفن هاندز: " : "Seven Hands IT Worksheet: ") +
+        (ui === "ar" ? "ورقة عمل هندسية من سفن هاندز: " : "Seven Hands Engineering Document: ") +
         docName + "\n" + currentUrl
       );
       waShareDocLink.href = "https://api.whatsapp.com/send?text=" + msg;
       if (waDocTitle) waDocTitle.textContent = (ui === "ar" ? "مشاركة: " : "Share: ") + docName;
+      if (waDocSub) waDocSub.textContent = ui === "ar" ? "إرسال رابط الورقة الحالية مباشرة للزملاء" : "Send direct worksheet link to colleagues";
     } else {
       const msg = encodeURIComponent(
         (ui === "ar"
@@ -367,14 +439,32 @@
       );
       waShareDocLink.href = "https://api.whatsapp.com/send?text=" + msg;
       if (waDocTitle) waDocTitle.textContent = ui === "ar" ? "مشاركة رابط المنظومة" : "Share System Link";
+      if (waDocSub) waDocSub.textContent = ui === "ar" ? "مشاركة رابط الموقع العام عبر واتساب" : "Share general system link via WhatsApp";
     }
   }
 
   function initFloatingActions() {
+    const floatingActions = $("#floatingActions");
     const trigger = $("#floatingWaTrigger");
     const menu = $("#waMenuDropdown");
     const closeBtn = $("#closeWaMenuBtn");
+    const minimizeBtn = $("#minimizeWaBtn");
+    const hideBtn = $("#floatingWaHideBtn");
+    const restoreBtn = $("#restoreWaBtn");
     const copyBtn = $("#quickCopyLinkBtn");
+
+    const isWaHidden = localStorage.getItem("sh_wa_hidden") === "true";
+    const isWaMinimized = localStorage.getItem("sh_wa_minimized") === "true";
+
+    if (floatingActions) {
+      if (isWaHidden) {
+        floatingActions.classList.add("is-hidden");
+        if (restoreBtn) restoreBtn.hidden = false;
+      }
+      if (isWaMinimized) {
+        floatingActions.classList.add("is-minimized");
+      }
+    }
 
     if (trigger && menu) {
       trigger.onclick = (e) => {
@@ -382,12 +472,48 @@
         menu.hidden = !menu.hidden;
         updateWaLinks();
       };
-      if (closeBtn) closeBtn.onclick = () => { menu.hidden = true; };
+      if (closeBtn) {
+        closeBtn.onclick = (e) => {
+          e.stopPropagation();
+          menu.hidden = true;
+        };
+      }
       document.addEventListener("click", (e) => {
         if (!menu.contains(e.target) && e.target !== trigger) {
           menu.hidden = true;
         }
       });
+    }
+
+    if (minimizeBtn && floatingActions) {
+      minimizeBtn.onclick = (e) => {
+        e.stopPropagation();
+        floatingActions.classList.toggle("is-minimized");
+        menu.hidden = true;
+        const isMin = floatingActions.classList.contains("is-minimized");
+        localStorage.setItem("sh_wa_minimized", isMin);
+        showToast(isMin ? (ui === "ar" ? "تم تصغير زر واتساب" : "WhatsApp widget minimized") : (ui === "ar" ? "تم توسيع زر واتساب" : "WhatsApp widget expanded"), "💬");
+      };
+    }
+
+    if (hideBtn && floatingActions) {
+      hideBtn.onclick = (e) => {
+        e.stopPropagation();
+        floatingActions.classList.add("is-hidden");
+        if (menu) menu.hidden = true;
+        if (restoreBtn) restoreBtn.hidden = false;
+        localStorage.setItem("sh_wa_hidden", "true");
+        showToast(ui === "ar" ? "تم إخفاء زر واتساب لتفريغ مساحة العمل" : "WhatsApp button hidden to clear workspace", "👁️");
+      };
+    }
+
+    if (restoreBtn && floatingActions) {
+      restoreBtn.onclick = () => {
+        floatingActions.classList.remove("is-hidden");
+        restoreBtn.hidden = true;
+        localStorage.setItem("sh_wa_hidden", "false");
+        showToast(ui === "ar" ? "تمت استعادة زر واتساب" : "WhatsApp button restored", "💬");
+      };
     }
 
     if (copyBtn) {
@@ -403,10 +529,19 @@
     }
   }
 
-  /* ---------- Interactive Preloader ---------- */
+  /* ---------- Interactive Preloader (Zero friction) ---------- */
   function initInteractiveLoader() {
     const loader = $("#appLoader");
     if (!loader) return;
+
+    // Instant bypass if user came with direct hash or has visited before in session
+    const isDirectLink = location.hash && location.hash.length > 2;
+    const hasVisited = sessionStorage.getItem("sh_visited_session");
+    if (isDirectLink || hasVisited) {
+      loader.style.display = "none";
+      return;
+    }
+
     const barFill = $("#loaderBarFill");
     const statusTxt = $("#loaderStatusText");
     const percentVal = $("#loaderPercentVal");
@@ -417,23 +552,22 @@
     let finished = false;
 
     const steps = [
-      { p: 28, ar: "تهيئة بيئة العمل والنماذج الهندسية...", en: "Checking engineering templates & workspace..." },
-      { p: 58, ar: "تحميل محرك العمليات الحسابية والصيغ...", en: "Initializing formula and calculation engine..." },
-      { p: 88, ar: "تجهيز أدوات التصدير Docx & Excel & PDF...", en: "Preparing Docx, Excel & PDF export engines..." },
+      { p: 35, ar: "تهيئة بيئة العمل والنماذج الهندسية...", en: "Checking engineering templates & workspace..." },
+      { p: 70, ar: "تحميل محرك العمليات الحسابية والصيغ...", en: "Initializing formula and calculation engine..." },
       { p: 100, ar: "النظام جاهز! مرحباً بك في SEVEN HANDS Docs", en: "System ready! Welcome to SEVEN HANDS Docs" }
     ];
 
     function dismiss() {
       if (finished) return;
       finished = true;
+      sessionStorage.setItem("sh_visited_session", "1");
       if (barFill) barFill.style.width = "100%";
       if (percentVal) percentVal.textContent = "100%";
       if (statusTxt) statusTxt.textContent = ui === "ar" ? "النظام جاهز للاستخدام!" : "Ready to use!";
       loader.classList.add("loader-done");
-      setTimeout(() => { loader.style.display = "none"; }, 460);
+      setTimeout(() => { loader.style.display = "none"; }, 350);
     }
 
-    // Mouse glow parallax
     loader.addEventListener("mousemove", (e) => {
       if (glowOrb) {
         glowOrb.style.left = e.clientX + "px";
@@ -451,20 +585,141 @@
       }
     });
 
-    // Fast, responsive animated loading sequence (~1.1s)
     const interval = setInterval(() => {
       if (finished) { clearInterval(interval); return; }
-      progress += Math.floor(Math.random() * 8) + 5;
+      progress += Math.floor(Math.random() * 12) + 10;
       if (progress >= 100) {
         progress = 100;
         clearInterval(interval);
-        setTimeout(dismiss, 120);
+        setTimeout(dismiss, 80);
       }
       const st = steps.find(s => progress <= s.p) || steps[steps.length - 1];
       if (barFill) barFill.style.width = progress + "%";
       if (percentVal) percentVal.textContent = progress + "%";
       if (statusTxt) statusTxt.textContent = ui === "ar" ? st.ar : st.en;
-    }, 45);
+    }, 35);
+  }
+
+  /* ---------- Central Document Register Modal ---------- */
+  function openRegistryModal() {
+    const modal = $("#modal");
+    if (!modal) return;
+    const allDocs = Object.values(store.all()).sort((a, b) => (b.updated || 0) - (a.updated || 0));
+
+    modal.hidden = false;
+    modal.innerHTML = `
+      <div class="modal-registry" role="dialog" aria-modal="true" aria-label="${t("registry")}">
+        <div class="modal-registry-head">
+          <div class="modal-registry-title">
+            <span>📑</span>
+            <span>${t("registry")} (${allDocs.length})</span>
+          </div>
+          <button class="btn ghost-white small" id="closeRegistryModalBtn" aria-label="${t("close")}">✕</button>
+        </div>
+        <div class="modal-registry-body">
+          <div class="registry-actions-bar">
+            <div>
+              <p class="muted" style="margin:0">${t("registryDesc")}</p>
+            </div>
+            <button class="btn accent" id="exportRegistryBtn" ${allDocs.length ? "" : "disabled"}>
+              📗 ${t("exportRegistry")}
+            </button>
+          </div>
+
+          ${allDocs.length === 0 ? `
+            <div style="padding:40px;text-align:center" class="muted">
+              <p style="font-size:16px">${t("noSavedDocs")}</p>
+            </div>
+          ` : `
+            <div style="overflow-x:auto">
+              <table class="registry-table">
+                <thead>
+                  <tr>
+                    <th style="width:40px">#</th>
+                    <th>${t("code")}</th>
+                    <th>${t("title")}</th>
+                    <th>${t("docDept")}</th>
+                    <th>${t("status")}</th>
+                    <th>${t("author")}</th>
+                    <th>${t("date")}</th>
+                    <th style="text-align:center">${t("actions")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${allDocs.map((d, i) => {
+                    const statusClass = d.status === "approved" ? "approved" : d.status === "review" ? "review" : "draft";
+                    const statusName = d.status === "approved" ? t("statusApproved") : d.status === "review" ? t("statusReview") : t("statusDraft");
+                    const deptKey = "dept" + (d.dept ? d.dept.charAt(0).toUpperCase() + d.dept.slice(1) : "It");
+                    const deptName = t(deptKey) || d.dept || "IT";
+                    const dateStr = new Date(d.updated || Date.now()).toLocaleDateString(ui === "ar" ? "ar-EG" : "en-GB");
+                    return `
+                      <tr>
+                        <td>${i + 1}</td>
+                        <td><span class="doc-code-badge">${esc(d.docNumber || "SH-DOC-2026-" + String(i + 1).padStart(4, "0"))}</span></td>
+                        <td><strong>${esc(d.name || d.title || "مستند بدون عنوان")}</strong></td>
+                        <td><span class="card-dept-tag" style="margin:0">${deptName}</span></td>
+                        <td><span class="doc-status-badge doc-status-${statusClass}">${statusName}</span></td>
+                        <td class="muted">${ui === "ar" ? "م. صلاح" : "Eng. Salah"}</td>
+                        <td class="muted">${dateStr}</td>
+                        <td style="text-align:center;white-space:nowrap">
+                          <button class="btn small primary reg-open-btn" data-id="${d.id}">${t("open")}</button>
+                          <button class="btn small danger reg-del-btn" data-id="${d.id}" title="${t("del")}">🗑️</button>
+                        </td>
+                      </tr>
+                    `;
+                  }).join("")}
+                </tbody>
+              </table>
+            </div>
+          `}
+        </div>
+      </div>
+    `;
+
+    $("#closeRegistryModalBtn").onclick = () => { modal.hidden = true; };
+    modal.onclick = (e) => { if (e.target === modal) modal.hidden = true; };
+
+    const expBtn = $("#exportRegistryBtn");
+    if (expBtn) {
+      expBtn.onclick = async () => {
+        try {
+          expBtn.disabled = true;
+          expBtn.textContent = t("exporting");
+          const blob = await SHEXPORT.registryXlsx(allDocs);
+          saveBlob(blob, `SEVEN_HANDS_Document_Registry_${new Date().toISOString().slice(0, 10)}.xlsx`);
+          showToast(ui === "ar" ? "تم تصدير سجل المستندات بنجاح إلى Excel 🚀" : "Document registry exported to Excel 🚀", "📗");
+        } catch (err) {
+          console.error(err);
+          alert(t("failed") + ": " + (err && err.message));
+        } finally {
+          expBtn.disabled = false;
+          expBtn.innerHTML = `📗 ${t("exportRegistry")}`;
+        }
+      };
+    }
+
+    $$(".reg-open-btn", modal).forEach(btn => {
+      btn.onclick = () => {
+        const id = btn.getAttribute("data-id");
+        const doc = store.all()[id];
+        if (doc) {
+          modal.hidden = true;
+          openDoc(doc);
+        }
+      };
+    });
+
+    $$(".reg-del-btn", modal).forEach(btn => {
+      btn.onclick = () => {
+        const id = btn.getAttribute("data-id");
+        if (confirm(t("confirm"))) {
+          store.del(id);
+          showToast(t("del"), "🗑️");
+          openRegistryModal();
+          if (!cur) renderHome();
+        }
+      };
+    });
   }
 
   /* ---------- Home View with Interactive Search & Filters ---------- */
@@ -476,15 +731,17 @@
     const h = $("#home");
     const allDocs = Object.values(store.all()).sort((a, b) => b.updated - a.updated);
 
-    // Build categories list
+    // Build department categories list
     const categories = [
       { id: "all", label: t("all"), icon: "⚡" },
-      { id: "prices", label: t("catPrices"), icon: "🏬" },
-      { id: "builds", label: t("catBuilds"), icon: "🖥️" },
-      { id: "orders", label: t("catOrders"), icon: "✉️" },
-      { id: "inventory", label: t("catInventory"), icon: "🗂️" },
-      { id: "blank", label: t("catBlank"), icon: "📄" },
-      { id: "saved", label: t("catSaved"), icon: "💾" }
+      { id: "it", label: t("deptIt"), icon: "💻" },
+      { id: "procurement", label: t("deptProcurement"), icon: "🛒" },
+      { id: "hr", label: t("deptHr"), icon: "👥" },
+      { id: "secretary", label: t("deptSecretary"), icon: "📋" },
+      { id: "engineering", label: t("deptEngineering"), icon: "📐" },
+      { id: "management", label: t("deptManagement"), icon: "🏢" },
+      { id: "saved", label: t("catSaved"), icon: "💾" },
+      { id: "blank", label: t("deptBlank"), icon: "📄" }
     ];
 
     h.innerHTML = `
@@ -497,11 +754,11 @@
             <span class="stat-lbl">${t("statTemplates")}</span>
           </div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card" id="savedStatsCard" role="button" tabindex="0" title="${t("registry")}">
           <div class="stat-icon">💾</div>
           <div class="stat-info">
             <span class="stat-val">${allDocs.length}</span>
-            <span class="stat-lbl">${t("statSaved")}</span>
+            <span class="stat-lbl">${t("statSaved")} (انقر للسجل)</span>
           </div>
         </div>
         <div class="stat-card">
@@ -528,6 +785,9 @@
             <input type="text" id="tplSearch" value="${esc(searchQuery)}" placeholder="${t("searchPlaceholder")}">
             <button id="clearSearchBtn" class="clear-search-btn" ${searchQuery ? "" : "hidden"}>×</button>
           </div>
+          <button class="btn accent" id="homeRegistryBtn" style="margin:0" title="${t("registryDesc")}">
+            📑 ${t("registryShort")}
+          </button>
           <label class="btn ghost" style="margin:0">
             📁 ${t("imp")}
             <input type="file" id="impFile" accept=".json,application/json" hidden>
@@ -554,6 +814,7 @@
       <section id="savedSection" style="margin-top:28px">
         <div class="row-between">
           <h2>${t("saved")} (${allDocs.length})</h2>
+          <button class="btn ghost small" id="viewRegistryTableBtn">📑 ${t("registry")}</button>
         </div>
         <div id="saved" class="list"></div>
       </section>
@@ -567,7 +828,7 @@
       let count = 0;
       if (cat.id === "all") count = SH.TEMPLATES.length;
       else if (cat.id === "saved") count = allDocs.length;
-      else count = SH.TEMPLATES.filter(tp => tp.cat === cat.id).length;
+      else count = SH.TEMPLATES.filter(tp => (tp.dept === cat.id || tp.cat === cat.id)).length;
 
       btn.innerHTML = `<span>${cat.label}</span><span class="pill-count">${count}</span>`;
       btn.onclick = () => {
@@ -581,6 +842,13 @@
       };
       pillsContainer.appendChild(btn);
     });
+
+    const sStatsCard = $("#savedStatsCard");
+    if (sStatsCard) sStatsCard.onclick = openRegistryModal;
+    const hRegBtn = $("#homeRegistryBtn");
+    if (hRegBtn) hRegBtn.onclick = openRegistryModal;
+    const vRegBtn = $("#viewRegistryTableBtn");
+    if (vRegBtn) vRegBtn.onclick = openRegistryModal;
 
     // Search events
     const sInput = $("#tplSearch");
@@ -618,6 +886,11 @@
           const d = JSON.parse(rd.result);
           d.id = uid();
           d.name = d.name || d.title;
+          if (!d.docNumber) {
+            const allDocs = Object.values(store.all());
+            d.docNumber = `SH-DOC-2026-${String(allDocs.length + 1).padStart(4, "0")}`;
+          }
+          if (!d.status) d.status = "draft";
           store.put(d);
           showToast(t("savedOk"), "✓");
           openDoc(d);
@@ -635,22 +908,24 @@
 
       let visibleCount = 0;
       SH.TEMPLATES.forEach((tp) => {
-        const matchesCategory = (activeFilter === "all") || (tp.cat === activeFilter);
-        const textTarget = (tp.ar + " " + tp.en + " " + (tp.desc || "") + " " + (tp.catAr || "") + " " + (tp.catEn || "")).toLowerCase();
+        const matchesCategory = (activeFilter === "all") || (tp.dept === activeFilter) || (tp.cat === activeFilter);
+        const textTarget = (tp.ar + " " + tp.en + " " + (tp.desc || "") + " " + (tp.dept || "") + " " + (tp.prefix || "")).toLowerCase();
         const matchesSearch = !q || textTarget.includes(q);
 
         if (matchesCategory && matchesSearch && activeFilter !== "saved") {
           visibleCount++;
           const b = document.createElement("button");
           b.className = "tcard";
-          const catLabel = ui === "ar" ? (tp.catAr || "") : (tp.catEn || "");
+          const deptKey = "dept" + (tp.dept ? tp.dept.charAt(0).toUpperCase() + tp.dept.slice(1) : "It");
+          const deptName = t(deptKey) || tp.dept || "";
           b.innerHTML = `
             <div class="tcard-top">
               <span class="ti">${tp.icon}</span>
-              ${catLabel ? `<span class="tcard-cat-badge">${catLabel}</span>` : ""}
+              <span class="card-dept-tag">${deptName}</span>
+              <span class="doc-code-badge">${esc(tp.prefix || "SH-DOC")}</span>
             </div>
-            <b>${ui === "ar" ? tp.ar : tp.en}</b>
-            <small>${tp.desc || ""}</small>
+            <b>${esc(ui === "ar" ? tp.ar : tp.en)}</b>
+            <small>${esc(tp.desc || "")}</small>
             <div class="tcard-footer">
               <span>${t("startDoc")}</span>
               <span style="font-size:16px">➔</span>
@@ -661,6 +936,13 @@
             cur.id = uid();
             cur.name = ui === "ar" ? tp.ar : tp.en;
             cur.tpl = tp.id;
+            cur.dept = tp.dept || "it";
+            if (!cur.docNumber) {
+              const allDocs = Object.values(store.all());
+              const nextSeq = allDocs.length + 1;
+              cur.docNumber = `${tp.prefix || "SH-DOC"}-2026-${String(nextSeq).padStart(4, "0")}`;
+            }
+            if (!cur.status) cur.status = "draft";
             store.put(cur);
             showToast(t("savedOk"), "💾");
             openDoc(cur);
@@ -678,7 +960,7 @@
       s.innerHTML = "";
       const filteredDocs = allDocs.filter(d => {
         if (!q) return true;
-        const dt = (d.name || d.title || "").toLowerCase();
+        const dt = ((d.name || d.title || "") + " " + (d.docNumber || "") + " " + (d.dept || "")).toLowerCase();
         return dt.includes(q);
       });
 
@@ -689,10 +971,20 @@
           const r = document.createElement("div");
           r.className = "srow";
           const dDate = new Date(d.updated).toLocaleString(ui === "ar" ? "ar-EG" : "en-GB");
+          const statusClass = d.status === "approved" ? "approved" : d.status === "review" ? "review" : "draft";
+          const statusName = d.status === "approved" ? t("statusApproved") : d.status === "review" ? t("statusReview") : t("statusDraft");
+          const deptKey = "dept" + (d.dept ? d.dept.charAt(0).toUpperCase() + d.dept.slice(1) : "It");
+          const deptName = t(deptKey) || d.dept || "IT";
+
           r.innerHTML = `
             <div class="srow-meta">
               <span class="srow-icon">📋</span>
               <div>
+                <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap">
+                  <span class="doc-code-badge">${esc(d.docNumber || "SH-DOC")}</span>
+                  <span class="doc-status-badge doc-status-${statusClass}">${statusName}</span>
+                  <span class="card-dept-tag" style="margin:0">${deptName}</span>
+                </div>
                 <b class="srow-title"></b>
                 <small>${t("date")}: ${dDate}</small>
               </div>
@@ -709,6 +1001,9 @@
             const dup = clone(d);
             dup.id = uid();
             dup.name = (d.name || d.title) + (ui === "ar" ? " (نسخة)" : " (copy)");
+            const allDocs = Object.values(store.all());
+            dup.docNumber = (d.docNumber || "SH-DOC").replace(/\d+$/, "") + String(allDocs.length + 1).padStart(4, "0");
+            dup.status = "draft";
             store.put(dup);
             showToast(ui === "ar" ? "تم نسخ المستند بنجاح" : "Document duplicated", "📋");
             renderHome();
@@ -810,6 +1105,21 @@
 
         <div class="tgroup">
           <label>${t("name")}<input id="fName" value=""></label>
+          <label>${t("docNumber")}<input id="fDocNum" value="" placeholder="SH-IT-PR-2026-0001" style="width:160px;font-family:monospace;font-weight:700"></label>
+          <label>${t("docStatus")}<select id="fStatus">
+            <option value="draft">${t("statusDraft")}</option>
+            <option value="review">${t("statusReview")}</option>
+            <option value="approved">${t("statusApproved")}</option>
+          </select></label>
+          <label>${t("docDept")}<select id="fDept">
+            <option value="it">${t("deptIt")}</option>
+            <option value="procurement">${t("deptProcurement")}</option>
+            <option value="hr">${t("deptHr")}</option>
+            <option value="secretary">${t("deptSecretary")}</option>
+            <option value="engineering">${t("deptEngineering")}</option>
+            <option value="management">${t("deptManagement")}</option>
+            <option value="blank">${t("deptBlank")}</option>
+          </select></label>
           <label>${t("dir")}<select id="fLang"><option value="ar">العربية (RTL)</option><option value="en">English (LTR)</option></select></label>
           <label>${t("orient")}<select id="fOr"><option value="landscape">${t("land")}</option><option value="portrait">${t("port")}</option></select></label>
           <label class="chk"><input type="checkbox" id="fLogo"> ${t("logo")}</label>
@@ -864,6 +1174,9 @@
     $("#edToolbarBackBtn").onclick = goHome;
 
     $("#fName").value = cur.name || "";
+    $("#fDocNum").value = cur.docNumber || "";
+    $("#fStatus").value = cur.status || "draft";
+    $("#fDept").value = cur.dept || "it";
     $("#fLang").value = cur.lang;
     $("#fOr").value = cur.orient;
     $("#fLogo").checked = !!cur.logo;
@@ -873,6 +1186,23 @@
       $("#bcCurrentDoc").textContent = cur.name || cur.title;
       scheduleSave();
       updateWaLinks();
+    };
+    $("#fDocNum").oninput = (e) => {
+      cur.docNumber = e.target.value.trim();
+      scheduleSave();
+      renderPage();
+      updateWaLinks();
+    };
+    $("#fStatus").onchange = (e) => {
+      cur.status = e.target.value;
+      scheduleSave();
+      renderPage();
+      showToast(ui === "ar" ? "تم تحديث حالة المستند" : "Status updated", "✓");
+    };
+    $("#fDept").onchange = (e) => {
+      cur.dept = e.target.value;
+      scheduleSave();
+      renderPage();
     };
     $("#fLang").onchange = (e) => { cur.lang = e.target.value; flushSave(); renderEditor(); };
     $("#fOr").onchange = (e) => { cur.orient = e.target.value; flushSave(); renderEditor(); };
@@ -902,6 +1232,9 @@
       const c = clone(cur);
       c.id = uid();
       c.name = (cur.name || cur.title) + (ui === "ar" ? " (نسخة)" : " (copy)");
+      const allDocs = Object.values(store.all());
+      c.docNumber = (cur.docNumber || "SH-DOC").replace(/\d+$/, "") + String(allDocs.length + 1).padStart(4, "0");
+      c.status = "draft";
       store.put(c);
       cur = c;
       location.hash = "#" + c.id;
@@ -937,12 +1270,22 @@
     // Header
     const head = document.createElement("div");
     head.className = "ph";
+    const statusClass = cur.status === "approved" ? "approved" : cur.status === "review" ? "review" : "draft";
+    const statusName = cur.status === "approved" ? t("statusApproved") : cur.status === "review" ? t("statusReview") : t("statusDraft");
+    const deptKey = "dept" + (cur.dept ? cur.dept.charAt(0).toUpperCase() + cur.dept.slice(1) : "It");
+    const deptName = t(deptKey) || cur.dept || "IT";
+
     head.innerHTML = `
       <div class="ph-text">
+        <div class="ph-meta-bar" style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+          <span class="doc-code-badge">${esc(cur.docNumber || "SH-DOC-2026-0001")}</span>
+          <span class="doc-status-badge doc-status-${statusClass}">${statusName}</span>
+          <span class="card-dept-tag" style="margin:0">${deptName}</span>
+        </div>
         <h1 class="ph-title"></h1>
         <p class="ph-sub"></p>
       </div>
-      ${cur.logo ? '<img class="ph-logo" src="logo.png" alt="SEVEN HANDS">' : ""}
+      ${cur.logo ? '<img class="ph-logo" src="logo.png" alt="SEVEN HANDS Engineering Services & Construction">' : ""}
     `;
     editable($(".ph-title", head), () => cur.title, (v) => { cur.title = v; $("#bcCurrentDoc").textContent = cur.name || cur.title; }, false);
     editable($(".ph-sub", head), () => cur.subtitle || "", (v) => (cur.subtitle = v), false);
@@ -1200,7 +1543,9 @@
       box: { type: "box", tone: "info", text: ar ? "ملاحظة..." : "Note..." },
       sign: {
         type: "sign",
-        items: ar ? ["إعداد: م. صلاح", "مراجعة: م. عصام"] : ["Prepared by: Eng. Salah", "Reviewed by: Eng. Esam"]
+        items: ar
+          ? ["إعداد: م. صلاح، مهندس علوم حاسب", "مراجعة: م. عصام، مدير تكنولوجيا المعلومات", "اعتماد: الإدارة العامة / المدير التنفيذي"]
+          : ["Prepared by: Eng. Salah, Computer Science Engineer", "Reviewed by: Eng. Esam, IT Manager", "Approved by: General Management"]
       },
       table: {
         type: "table",
@@ -1395,6 +1740,8 @@
     brandHeader.onclick = goHome;
     brandHeader.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") goHome(); };
   }
+  const headerReg = $("#headerRegistryBtn");
+  if (headerReg) headerReg.onclick = openRegistryModal;
 
   // Initialize interactive components
   initInteractiveLoader();

@@ -839,7 +839,7 @@ h2{
 /* ========================================================
    Interactive Document Sheet Page
    ======================================================== */
-.stage{overflow:auto;padding:18px 0 50px;display:flex;justify-content:center}
+.stage{overflow:auto;padding:18px 0 160px;display:flex;justify-content:center}
 .page{
   background:#fff;
   box-shadow:0 4px 20px rgba(0,0,0,0.14);
@@ -989,6 +989,17 @@ tfoot td{background:#DCEBF4;font-weight:700}
   flex-direction:column;
   align-items:flex-end;
   gap:12px;
+  transition:transform 0.25s ease, opacity 0.25s ease;
+}
+.floating-actions.is-hidden{
+  transform:translateY(120%);
+  opacity:0;
+  pointer-events:none;
+}
+.floating-wa-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
 }
 .floating-wa-btn{
   position:relative;
@@ -1011,6 +1022,37 @@ tfoot td{background:#DCEBF4;font-weight:700}
   transform:translateY(-3px) scale(1.04);
   box-shadow:0 8px 26px rgba(37,211,102,0.6);
 }
+.floating-actions.is-minimized .floating-wa-tag{
+  display:none;
+}
+.floating-actions.is-minimized .floating-wa-btn{
+  padding:10px;
+  border-radius:50%;
+  width:44px;
+  height:44px;
+  justify-content:center;
+}
+.floating-wa-dismiss-btn{
+  background:#0B1F33;
+  color:#fff;
+  border:1px solid rgba(255,255,255,0.2);
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  opacity:0.8;
+  transition:var(--tr);
+  box-shadow:var(--shadow-sm);
+}
+.floating-wa-dismiss-btn:hover{
+  opacity:1;
+  background:#d32f2f;
+  transform:scale(1.1);
+}
 .floating-wa-pulse{
   position:absolute;
   inset:-4px;
@@ -1024,12 +1066,37 @@ tfoot td{background:#DCEBF4;font-weight:700}
   70%{transform:scale(1.15);opacity:0}
   100%{transform:scale(1.2);opacity:0}
 }
+.wa-restore-btn{
+  position:fixed;
+  bottom:20px;
+  inset-inline-end:20px;
+  z-index:45;
+  background:#fff;
+  border:1.5px solid var(--line);
+  box-shadow:var(--shadow-md);
+  border-radius:24px;
+  padding:8px 16px;
+  font-size:13px;
+  font-weight:700;
+  color:var(--navy);
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  transition:var(--tr);
+}
+.wa-restore-btn:hover{
+  background:var(--soft);
+  border-color:var(--cyan);
+  transform:translateY(-2px);
+  box-shadow:var(--shadow-lg);
+}
 .wa-menu-dropdown{
   background:#fff;
   border:1px solid var(--line);
   border-radius:var(--radius-lg);
   box-shadow:var(--shadow-lg);
-  width:290px;
+  width:300px;
   overflow:hidden;
   animation:menuSlide 0.25s ease;
 }
@@ -1041,6 +1108,29 @@ tfoot td{background:#DCEBF4;font-weight:700}
   align-items:center;
   justify-content:space-between;
   font-size:13.5px;
+}
+.wa-head-controls{
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+.wa-head-btn{
+  border:0;
+  background:rgba(255,255,255,0.18);
+  color:#fff;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+  width:24px;
+  height:24px;
+  border-radius:4px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:var(--tr);
+}
+.wa-head-btn:hover{
+  background:rgba(255,255,255,0.35);
 }
 .wa-pill-dot{
   display:inline-block;
@@ -1078,8 +1168,115 @@ tfoot td{background:#DCEBF4;font-weight:700}
 .wa-menu-item:last-child{border-bottom:0}
 .wa-menu-item:hover{background:var(--soft);color:var(--navy)}
 .wa-item-icon{font-size:20px;flex-shrink:0}
-.wa-item-text strong{display:block;font-size:13px;line-height:1.2}
-.wa-item-text small{display:block;font-size:11.5px;color:var(--mut);margin-top:2px}
+
+/* Document Status & Department Badges */
+.doc-status-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:3px 10px;
+  border-radius:14px;
+  font-size:11.5px;
+  font-weight:700;
+}
+.doc-status-draft{
+  background:#f1f5f9;
+  color:#475569;
+  border:1px solid #cbd5e1;
+}
+.doc-status-review{
+  background:#e0f2fe;
+  color:#0369a1;
+  border:1px solid #7dd3fc;
+}
+.doc-status-approved{
+  background:#ecfdf5;
+  color:#047857;
+  border:1px solid #6ee7b7;
+}
+.doc-code-badge{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  background:var(--soft);
+  color:var(--navy);
+  border:1px solid var(--line);
+  padding:2px 8px;
+  border-radius:6px;
+  font-size:11.5px;
+  font-weight:700;
+}
+.card-dept-tag{
+  font-size:11px;
+  font-weight:700;
+  color:var(--navy);
+  background:var(--soft);
+  padding:2px 8px;
+  border-radius:4px;
+  display:inline-block;
+  margin-bottom:6px;
+}
+
+/* Central Document Register Modal */
+.modal-registry{
+  background:#fff;
+  border-radius:var(--radius-lg);
+  max-width:980px;
+  width:95%;
+  max-height:88vh;
+  display:flex;
+  flex-direction:column;
+  box-shadow:var(--shadow-lg);
+  overflow:hidden;
+}
+.modal-registry-head{
+  background:linear-gradient(90deg, var(--navy), #0E5E9C);
+  color:#fff;
+  padding:16px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.modal-registry-title{
+  font-size:16px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.modal-registry-body{
+  padding:18px 20px;
+  overflow:auto;
+  flex:1;
+}
+.registry-actions-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:14px;
+  flex-wrap:wrap;
+}
+.registry-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+  text-align:start;
+}
+.registry-table th{
+  background:var(--soft);
+  color:var(--navy);
+  padding:10px 12px;
+  font-weight:700;
+  border-bottom:2px solid var(--line);
+}
+.registry-table td{
+  padding:10px 12px;
+  border-bottom:1px solid var(--line);
+  vertical-align:middle;
+}
+.registry-table tr:hover td{
+  background:#f8fafc;
+}
+
 
 /* ========================================================
    Interactive Toast Notifications
