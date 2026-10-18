@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" prefix="og: https://ogp.me/ns#">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -11,39 +11,32 @@
 
 <link rel="canonical" href="https://sevenhands-eta.vercel.app/">
 
-<!-- WhatsApp & Open Graph Metadata -->
+<!-- WhatsApp & Open Graph Primary Metadata -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://sevenhands-eta.vercel.app/">
 <meta property="og:site_name" content="شركة سفن هاندز للخدمات الهندسية والمقاولات | SEVEN HANDS">
 <meta property="og:title" content="شركة سفن هاندز للخدمات الهندسية والمقاولات | SEVEN HANDS">
-<meta property="og:description" content="المنظومة الرقمية المعتمدة لإدارة وتوثيق النماذج واللوائح الرسمية، طلبات الشراء، عروض ومقارنة الأسعار، وأوراق عمل كافة أقسام الشركة - سفن هاندز للخدمات الهندسية والمقاولات.">
-<meta property="og:image" content="https://sevenhands-eta.vercel.app/og-image.png">
-<meta property="og:image:secure_url" content="https://sevenhands-eta.vercel.app/og-image.png">
-<meta property="og:image:type" content="image/png">
+<meta property="og:description" content="المنظومة الرقمية المعتمدة لشركة سفن هاندز للخدمات الهندسية والمقاولات: إدارة النماذج واللوائح الرسمية، طلبات الشراء، عروض ومقارنة الأسعار، وأوراق عمل كافة أقسام الشركة.">
+<meta property="og:image" content="https://sevenhands-eta.vercel.app/meta-logo.jpg?v=3">
+<meta property="og:image:secure_url" content="https://sevenhands-eta.vercel.app/meta-logo.jpg?v=3">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="شركة سفن هاندز للخدمات الهندسية والمقاولات - SEVEN HANDS For Engineering Services & Construction">
 
-<meta property="og:image" content="https://sevenhands-eta.vercel.app/meta-logo.png">
-<meta property="og:image:secure_url" content="https://sevenhands-eta.vercel.app/meta-logo.png">
-<meta property="og:image:type" content="image/png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="904">
-<meta property="og:image:alt" content="SEVEN HANDS - 3D Metallic Corporate Brand Logo">
+<!-- WhatsApp Direct Thumbnail Fallbacks & Google Rich Snippets -->
+<link rel="image_src" href="https://sevenhands-eta.vercel.app/meta-logo.jpg?v=3">
+<meta itemprop="name" content="شركة سفن هاندز للخدمات الهندسية والمقاولات | SEVEN HANDS">
+<meta itemprop="description" content="المنظومة الرقمية المعتمدة لإدارة وتوثيق النماذج واللوائح الرسمية، طلبات الشراء، عروض الأسعار، وأوراق عمل كافة أقسام شركة سفن هاندز">
+<meta itemprop="image" content="https://sevenhands-eta.vercel.app/meta-logo.jpg?v=3">
+<meta name="theme-color" content="#094878">
 
 <!-- Twitter Cards -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="https://sevenhands-eta.vercel.app/">
 <meta name="twitter:title" content="شركة سفن هاندز للخدمات الهندسية والمقاولات | SEVEN HANDS">
 <meta name="twitter:description" content="المنظومة الرقمية المعتمدة لإدارة وتوثيق النماذج واللوائح الرسمية، طلبات الشراء، عروض ومقارنة الأسعار، وأوراق عمل كافة أقسام شركة سفن هاندز للخدمات الهندسية والمقاولات.">
-<meta name="twitter:image" content="https://sevenhands-eta.vercel.app/og-image.png">
-
-<!-- WhatsApp thumbnail fallbacks & Rich snippets -->
-<link rel="image_src" href="https://sevenhands-eta.vercel.app/meta-logo.png">
-<meta itemprop="name" content="شركة سفن هاندز للخدمات الهندسية والمقاولات | SEVEN HANDS">
-<meta itemprop="description" content="المنظومة الرقمية المعتمدة لإدارة وتوثيق النماذج واللوائح الرسمية، طلبات الشراء، عروض الأسعار، وأوراق عمل كافة أقسام شركة سفن هاندز">
-<meta itemprop="image" content="https://sevenhands-eta.vercel.app/meta-logo.png">
-<meta name="theme-color" content="#094878">
+<meta name="twitter:image" content="https://sevenhands-eta.vercel.app/meta-logo.jpg?v=3">
 
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
@@ -56,23 +49,6 @@
 </script>
 <script defer src="/_vercel/insights/script.js" data-sdkn="@vercel/analytics" data-sdkv="2.0.1"></script>
 <script defer src="/_vercel/speed-insights/script.js" data-sdkn="@vercel/speed-insights" data-sdkv="2.0.0"></script>
-
-<script>
-  /* Ensure social preview tags have absolute URLs when served over http(s) */
-  (function() {
-    if (window.location.protocol.startsWith("http")) {
-      var origin = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/');
-      var ogImg = document.querySelector('meta[property="og:image"]');
-      if (ogImg && !ogImg.content.startsWith('http')) ogImg.content = origin + 'og-image.png';
-      var ogSec = document.querySelector('meta[property="og:image:secure_url"]');
-      if (ogSec && !ogSec.content.startsWith('http')) ogSec.content = origin + 'og-image.png';
-      var twImg = document.querySelector('meta[name="twitter:image"]');
-      if (twImg && !twImg.content.startsWith('http')) twImg.content = origin + 'og-image.png';
-      var imgSrc = document.querySelector('link[rel="image_src"]');
-      if (imgSrc && !imgSrc.href.startsWith('http')) imgSrc.href = origin + 'meta-logo.png';
-    }
-  })();
-</script>
 </head>
 <body>
 
