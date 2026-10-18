@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "node server.js",
     "start": "node server.js",
-    "serve": "node server.js",
-    "build": "echo Static site ready"
+    "serve": "node server.js"
   },
   "keywords": [
     "seven-hands",
