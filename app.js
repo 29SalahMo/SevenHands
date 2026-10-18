@@ -300,6 +300,15 @@
     }, duration);
   }
 
+  /* ---------- Vercel Web Analytics & Speed Insights Custom Events ---------- */
+  function trackEvent(name, data) {
+    try {
+      if (typeof window !== "undefined" && typeof window.va === "function") {
+        window.va("event", { name, data: data || {} });
+      }
+    } catch (e) {}
+  }
+
   /* ---------- Calc Engine (shared with export) ---------- */
   const AR_DIG = "٠١٢٣٤٥٦٧٨٩";
   function num(s) {
@@ -383,6 +392,7 @@
     renderEditor();
     window.scrollTo({ top: 0, behavior: "smooth" });
     updateWaLinks();
+    trackEvent("open_document", { id: cur ? cur.id : "", title: cur ? cur.title : "" });
   }
 
   function goHome() {
@@ -1126,6 +1136,7 @@
   }
 
   function openAccountingToolsModal() {
+    trackEvent("open_accounting_tools");
     const modal = $("#modal");
     if (!modal) return;
     modal.hidden = false;
@@ -2894,6 +2905,7 @@
         await SHEXPORT.pdf($("#page"), cur, fileBase() + ".pdf");
         showToast(ui === "ar" ? "تم تحميل ملف PDF بنجاح 🚀" : "PDF exported 🚀", "📕");
       }
+      trackEvent("export_document", { format: kind, title: cur ? cur.title : "untitled" });
     } catch (e) {
       console.error(e);
       alert(t("failed") + ": " + (e && e.message));

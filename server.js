@@ -27,6 +27,16 @@ function createStaticServer(port, maxAttempts = 10) {
     let cleanUrl = decodeURI((req.url || '/').split('?')[0]);
     if (cleanUrl === '/' || cleanUrl === '') cleanUrl = '/index.html';
 
+    // Graceful handler for Vercel Insights & Speed Insights in local development
+    if (cleanUrl.startsWith('/_vercel/insights') || cleanUrl.startsWith('/_vercel/speed-insights')) {
+      res.writeHead(200, {
+        'Content-Type': 'application/javascript; charset=utf-8',
+        'Cache-Control': 'no-cache'
+      });
+      res.end('/* Vercel Insights & Speed Insights Local Dev Mock */\n(function(){ if (!window.__vci_logged) { window.__vci_logged = true; console.log("%c[SEVEN HANDS] Vercel Analytics & Speed Insights initialized in local dev mode.", "color: #13B7CD; font-weight: bold;"); } })();');
+      return;
+    }
+
     const safePath = path.normalize(path.join(__dirname, cleanUrl));
     if (!safePath.startsWith(__dirname)) {
       res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
