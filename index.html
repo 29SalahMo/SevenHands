@@ -118,6 +118,76 @@
       <span class="back-arrow-icon">←</span>
       <span id="homeBtnLabel">الرئيسية</span>
     </button>
+
+    <!-- Role / Department Partition Access Switcher -->
+    <div class="dept-switcher-wrap" id="deptSwitcherWrap">
+      <button class="btn dept-switcher-btn" id="deptSwitcherBtn" type="button" aria-haspopup="true" aria-expanded="false" title="اختيار قسم العمل والصلاحيات">
+        <span class="dept-switcher-icon" id="headerDeptIcon">⚡</span>
+        <span class="dept-switcher-label" id="headerDeptLabel">كل الأقسام</span>
+        <span class="dept-switcher-caret">▼</span>
+      </button>
+      <div class="dept-dropdown-menu" id="deptDropdownMenu" hidden>
+        <div class="dept-dropdown-head">
+          <small id="deptMenuHeadLabel">قسم العمل والصلاحيات (Partition):</small>
+        </div>
+        <button class="dept-opt-btn active" data-dept="all" type="button">
+          <span class="dept-opt-icon">⚡</span>
+          <div>
+            <strong id="optLabelAll">كافة الأقسام</strong>
+            <small id="optSubAll">صلاحيات كاملة لجميع النماذج</small>
+          </div>
+        </button>
+        <button class="dept-opt-btn" data-dept="hr" type="button">
+          <span class="dept-opt-icon">👥</span>
+          <div>
+            <strong id="optLabelHr">الموارد البشرية وشؤون العاملين</strong>
+            <small id="optSubHr">اللائحة، الإجازات، الأذونات، الأوفر تايم</small>
+          </div>
+        </button>
+        <button class="dept-opt-btn" data-dept="it" type="button">
+          <span class="dept-opt-icon">💻</span>
+          <div>
+            <strong id="optLabelIt">تكنولوجيا المعلومات</strong>
+            <small id="optSubIt">العتاد، المحطات، الصيانة، الجرد</small>
+          </div>
+        </button>
+        <button class="dept-opt-btn" data-dept="procurement" type="button">
+          <span class="dept-opt-icon">🛒</span>
+          <div>
+            <strong id="optLabelProc">المشتريات والعقود</strong>
+            <small id="optSubProc">طلبات الشراء، عروض الأسعار، التوريد</small>
+          </div>
+        </button>
+        <button class="dept-opt-btn" data-dept="secretary" type="button">
+          <span class="dept-opt-icon">📋</span>
+          <div>
+            <strong id="optLabelSec">السكرتارية والإدارة المكتبية</strong>
+            <small id="optSubSec">الخطابات، محاضر الاجتماعات، حجز القاعات</small>
+          </div>
+        </button>
+        <button class="dept-opt-btn" data-dept="engineering" type="button">
+          <span class="dept-opt-icon">📐</span>
+          <div>
+            <strong id="optLabelEng">الخدمات الهندسية والمشاريع</strong>
+            <small id="optSubEng">محطات Revit، فحص الأعمال، التراخيص</small>
+          </div>
+        </button>
+        <button class="dept-opt-btn" data-dept="management" type="button">
+          <span class="dept-opt-icon">🏢</span>
+          <div>
+            <strong id="optLabelMgmt">الإدارة العامة والمدير التنفيذي</strong>
+            <small id="optSubMgmt">القرارات الإدارية، الاعتمادات، المذكرات</small>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Quick HR Bylaws Reader Button in Header -->
+    <button class="btn ghost-white" id="headerBylawsBtn" title="عرض لائحة وسياسة الشركة المعتمدة">
+      <span>📖</span>
+      <span id="headerBylawsLabel">لائحة الشركة</span>
+    </button>
+
     <button class="btn ghost-white" id="headerRegistryBtn" title="عرض وتصدير سجل المستندات المركزي">
       <span>📑</span>
       <span id="headerRegistryLabel">سجل المستندات</span>

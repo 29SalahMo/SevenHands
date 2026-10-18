@@ -120,7 +120,12 @@
       waSiteTitle: "مشاركة رابط المنظومة",
       waSiteSub: "مشاركة رابط الموقع العام عبر واتساب",
       waCopyTitle: "نسخ رابط الصفحة الحالية",
-      waCopySub: "حفظ الرابط المباشر في الحافظة"
+      waCopySub: "حفظ الرابط المباشر في الحافظة",
+      bylawsLabel: "لائحة الشركة",
+      bylawsTitle: "لائحة وسياسة الموارد البشرية الرسمية",
+      bylawsDesc: "دليل السياسات واللوائح المعتمدة لشركة سفن هاندز: مواعيد العمل، الإجازات، الأذونات، الأوفر تايم والجزاءات",
+      partitionLabel: "قسم العمل",
+      allDepts: "كافة الأقسام"
     },
     en: {
       app: "Engineering Documents & Templates Editor",
@@ -235,7 +240,12 @@
       waSiteTitle: "Share Platform Link",
       waSiteSub: "Share general platform link via WhatsApp",
       waCopyTitle: "Copy Page Link",
-      waCopySub: "Copy direct page URL to clipboard"
+      waCopySub: "Copy direct page URL to clipboard",
+      bylawsLabel: "Company Bylaws",
+      bylawsTitle: "Official HR Policy & Bylaws",
+      bylawsDesc: "Official regulations: working hours, leaves, permissions, overtime, and penalties",
+      partitionLabel: "Partition",
+      allDepts: "All Departments"
     }
   };
 
@@ -331,6 +341,9 @@
 
     const regLbl = $("#headerRegistryLabel");
     if (regLbl) regLbl.textContent = t("registryShort");
+    const bylawsLbl = $("#headerBylawsLabel");
+    if (bylawsLbl) bylawsLbl.textContent = t("bylawsLabel");
+    if (typeof updateHeaderDept === "function") updateHeaderDept();
     const waLbl = $("#floatingWaLabel");
     if (waLbl) waLbl.textContent = t("waLabel");
     const resWaLbl = $("#restoreWaLabel");
@@ -722,6 +735,456 @@
     });
   }
 
+  /* ---------- Official SEVEN HANDS HR Bylaws & Policy Interactive Reader ---------- */
+  function openBylawsModal() {
+    const modal = $("#modal");
+    if (!modal) return;
+    modal.hidden = false;
+
+    const chapters = [
+      {
+        id: "ch-general",
+        icon: "🏢",
+        titleAr: "الأحكام العامة ومواعيد العمل",
+        titleEn: "General Provisions & Working Hours",
+        contentAr: `
+          <div class="bylaws-article">
+            <h4>📌 نطاق التطبيق والهدف (مادة 1 & 2)</h4>
+            <p>تسري هذه السياسة على كافة العاملين بشركة <strong>سفن هاندز (SEVEN HANDS)</strong>، وهي كيان مستقل وليست تابعة لأي شركة داخل جمهورية مصر العربية. تهدف اللائحة لوضع اللوائح والقوانين المنظمة لسير العمل والتعرف على حقوق وواجبات كل موظف. المدة السنوية بالتقويم الميلادي، والقيم بالجنيه المصري.</p>
+          </div>
+          <div class="bylaws-article">
+            <h4>⏰ مواعيد العمل الرسمية (المقر الرئيسي والمشاريع)</h4>
+            <ul>
+              <li><strong>الحضور:</strong> الساعة 9:00 صباحاً طوال أيام الأسبوع.</li>
+              <li><strong>فترة الراحة وتناول الطعام:</strong> من 12:30 ظهراً حتى 1:00 ظهراً (30 دقيقة).</li>
+              <li><strong>الانصراف:</strong> الساعة 5:30 مساءً طوال أيام الأسبوع.</li>
+              <li><strong>مواعيد يوم الخميس:</strong> من الساعة 9:00 صباحاً حتى الساعة 1:00 ظهراً بدون وقت راحة بالمقر الرئيسي.</li>
+              <li><strong>يوم الجمعة:</strong> إجازة نهاية الأسبوع مدفوعة الأجر عن 6 أيام عمل أسبوعياً.</li>
+              <li><strong>المشاريع والمواقع:</strong> الالتزام بمواعيد كل مشروع على حدة بما يتناسب مع ظروف الأعمال الهندسية.</li>
+            </ul>
+          </div>
+          <div class="bylaws-article">
+            <h4>⚖️ آلية التظلم والشكاوى (مادة 3)</h4>
+            <p>يتم النظر والبت في الشكاوى والتظلمات بين الموظف ومسؤول الموارد البشرية ومدير المشروع / المدير العام والرد عليها بحد أقصى <strong>7 أيام عمل</strong>.</p>
+          </div>
+        `
+      },
+      {
+        id: "ch-leaves",
+        icon: "🏖️",
+        titleAr: "قواعد وضوابط الإجازات (21 يوماً)",
+        titleEn: "Leave Regulations (21 Days)",
+        contentAr: `
+          <div class="bylaws-article">
+            <h4>📅 رصيد الإجازات السنوي (مادة 47 من قانون العمل)</h4>
+            <p>لكل موظف <strong>15 يوماً إجازة اعتيادية</strong> + <strong>6 أيام إجازة عارضة</strong> (إجمالي 21 يوماً في السنة مدفوعة الأجر).</p>
+            <p style="color:var(--danger);font-weight:700">⚠️ رصيد الإجازات السنوي لا يرحل للعام الذي يليه ولا يصرف نقدياً، بل يلتزم الموظف باستهلاكه خلال العام الجاري بموجب خطة إجازات معتمدة كل 15 يوماً.</p>
+          </div>
+          <div class="bylaws-article">
+            <h4>⏱️ ضوابط الإجازة العارضة</h4>
+            <ul>
+              <li>للموظف الحق في أخذ إجازة عارضة مقسمة بواقع <strong>يومين كل 4 شهور</strong> (إجمالي 6 أيام سنوياً).</li>
+              <li>يتم تقديم الإجازة العارضة في يوم مسبق أو في نفس اليوم <strong>بحد أقصى الساعة 10:00 صباحاً</strong>. إذا لم يتم الإبلاغ بها يخصم اليوم بيومين.</li>
+            </ul>
+          </div>
+          <div class="bylaws-article">
+            <h4>📝 ضوابط الإجازة الاعتيادية</h4>
+            <ul>
+              <li>يتم تقديم الإجازة الاعتيادية في مدة لا تقل عن <strong>48 ساعة عمل</strong> قبل موعد الإجازة (إذا كانت يومين أو أقل).</li>
+              <li>إذا تعدت الإجازة أكثر من يومين، يتم تقديمها واعتمادها قبل موعد الإجازة بمدة <strong>أسبوع كامل</strong>.</li>
+              <li>إذا قُدمت الإجازة الاعتيادية في موعد أقل من 48 ساعة، تحول إلى عارضة إن وجد رصيد، وإلا تخصم وفقاً للائحة الجزاءات.</li>
+              <li>في حالة العمل بأيام العطلات الأسبوعية أو الرسمية لضرورة المشروع، يحق للموظف أخذ <strong>يوم راحة بديل</strong>.</li>
+            </ul>
+          </div>
+        `
+      },
+      {
+        id: "ch-permissions",
+        icon: "🎫",
+        titleAr: "الأذونات والتأخيرات الشهرية",
+        titleEn: "Permissions & Late Arrivals",
+        contentAr: `
+          <div class="bylaws-article">
+            <h4>🚪 قواعد الأذونات الرسمية</h4>
+            <ul>
+              <li>الحد الأقصى للأذونات هو <strong>4 ساعات شهرياً</strong> تقسم على <strong>إذنين فقط (ساعتين لكل إذن)</strong>.</li>
+              <li><strong>حظر أذونات الخميس:</strong> لا يحق اعتماد أي إذن خروج أو تأخير يوم الخميس نظراً لأن الدوام ينتهي 1:00 ظهراً.</li>
+              <li>في حالة تجاوز الحد المسموح، يخصم الأذن من الراتب وفقاً للائحة ويكون له تأثير على التقييم السنوي.</li>
+            </ul>
+          </div>
+          <div class="bylaws-article">
+            <h4>⏰ السماح بالتأخير الصباحي</h4>
+            <ul>
+              <li>يسمح بالتأخير لمدة <strong>15 دقيقة لعدد 4 أيام فقط</strong> في الشهر.</li>
+              <li>يلتزم الموظف بإبلاغ مديره المباشر قبل بدء يوم العمل وإبلاغ شؤون العاملين خلال ساعة من بدء الدوام (الساعة 10:00 ص كحد أقصى).</li>
+            </ul>
+          </div>
+        `
+      },
+      {
+        id: "ch-allowances",
+        icon: "💼",
+        titleAr: "البدلات والأوفر تايم والانتقالات",
+        titleEn: "Allowances, Overtime & Travel",
+        contentAr: `
+          <div class="bylaws-article">
+            <h4>🚐 لائحة السكن والانتقالات</h4>
+            <ul>
+              <li>تتحمل الشركة كافة نفقات الانتقالات الخاصة بالمأموريات الرسمية فقط. ولا تتحمل الشركة نفقات الانتقال العادية من وإلى مقر العمل.</li>
+              <li>توفر الشركة السكن المناسب أو بدله في حالة مأموريات العمل خارج محافظتي القاهرة والجيزة.</li>
+            </ul>
+          </div>
+          <div class="bylaws-article">
+            <h4>💵 لائحة البدلات والمأموريات الخارجية</h4>
+            <p>يصرف للموظف أو العامل <strong>بدل 40%</strong> عن كل يوم عمل خارج محافظتي القاهرة والجيزة وفقاً لظروف وطبيعة العمل.</p>
+          </div>
+          <div class="bylaws-article">
+            <h4>⏱️ لائحة العمل الإضافي (Overtime)</h4>
+            <ul>
+              <li>يصرف الأوفر تايم بناءً على ورقة مسبقة معتمدة ومحددة بعدد ساعات العمل الإضافية المنجزة.</li>
+              <li><strong>سعر ساعة العمل الإضافي = 1.4 ساعة</strong> (الساعة تحسب بساعة وأربعين دقيقة).</li>
+              <li>يحتسب البدل بعد انقضاء <strong>ساعة كاملة</strong> من مواعيد الانصراف الرسمي (5:30 م)، ويحتسب بعد ذلك كل ربع ساعة.</li>
+            </ul>
+          </div>
+        `
+      },
+      {
+        id: "ch-penalties",
+        icon: "⚖️",
+        titleAr: "لائحة الجزاءات والخصومات",
+        titleEn: "Penalties & Deductions",
+        contentAr: `
+          <div class="bylaws-article">
+            <h4>🚫 جزاءات الغياب والانقطاع</h4>
+            <ul>
+              <li>الغياب بدون إذن مسبق: <strong>خصم اليوم بيومين</strong>.</li>
+              <li>الإجازة بدون رصيد إجازات بعد موافقة الإدارة: <strong>خصم اليوم بيوم ونصف</strong>.</li>
+              <li>الغياب لأكثر من 3 أيام في الأسبوع: <strong>خصم يوم الجمعة بدون أجر</strong>.</li>
+              <li>وقوع يوم الجمعة بين يومي غياب: <strong>تخصم الجمعة كيوم عمل</strong>.</li>
+              <li><strong>الانقطاع المتصل:</strong> 3 أيام متصلة (إنذار أول) · 6 أيام متصلة (إنذار ثانٍ) · 10 أيام متصلة (فصل نهائي من العمل).</li>
+              <li><strong>الانقطاع المتقطع:</strong> 5 أيام (إنذار أول) · 10 أيام (إنذار ثانٍ) · 20 يوماً خلال السنة (فصل نهائي).</li>
+            </ul>
+          </div>
+          <div class="bylaws-article">
+            <h4>⏳ جزاءات التأخير الصباحي (بعد الـ 15 دقيقة المسموحة)</h4>
+            <ul>
+              <li>التأخير حتى 15 دقيقة: تخصم الدقيقة بدقيقة.</li>
+              <li>التأخير من 15 إلى 30 دقيقة: يخصم بساعة واحدة.</li>
+              <li>التأخير من 30 إلى 60 دقيقة: يخصم بساعتين.</li>
+              <li>التأخير من 60 إلى 90 دقيقة: يخصم بنصف يوم عمل.</li>
+              <li>التأخير من 90 إلى 120 دقيقة: يخصم بيوم إلا ربع (0.75 يوم).</li>
+            </ul>
+          </div>
+        `
+      },
+      {
+        id: "ch-onboarding-resignation",
+        icon: "📜",
+        titleAr: "الموظفون الجدد والاستقالة",
+        titleEn: "Probation & Resignation",
+        contentAr: `
+          <div class="bylaws-article">
+            <h4>👔 ضوابط الموظفين الجدد وفترة الاختبار</h4>
+            <ul>
+              <li>يلتزم الموظف بتقديم كافة مسوغات التعيين الرسمية مع بداية أول يوم عمل ولا يسمح بأي نقص.</li>
+              <li>يكون الموظف في <strong>فترة اختبار لمدة ثلاثة شهور</strong>.</li>
+              <li>لا يسمح بالغياب أو الإجازة أو التأخير خلال فترة الاختبار.</li>
+              <li>يسمح بإذن لمدة <strong>ساعتين مرة واحدة في الشهر</strong> فقط خلال فترة الاختبار.</li>
+            </ul>
+          </div>
+          <div class="bylaws-article">
+            <h4>🤝 ضوابط الاستقالة وإخلاء الطرف</h4>
+            <ul>
+              <li>يتم تقديم الاستقالة كتابياً في مدة <strong>لا تقل عن شهر</strong> من تاريخ ترك العمل.</li>
+              <li>يقوم الموظف بتسليم كامل أعماله وملفاته بالتنسيق مع مديره المباشر والزميل البديل.</li>
+              <li>تسليم كامل العهدة التقنية (لابتوب، أجهزة كمبيوتر، شاشات، شواحن) لقسم IT وتسليم العهد المالية والمستندات قبل صرف المستحقات.</li>
+            </ul>
+          </div>
+        `
+      }
+    ];
+
+    modal.innerHTML = `
+      <div class="bylaws-modal-wrap" role="dialog" aria-modal="true" aria-label="لائحة وسياسة الموارد البشرية">
+        <div class="bylaws-modal-head">
+          <div class="bylaws-title">
+            <span>📖</span>
+            <span>سياسة ولائحة الموارد البشرية الرسمية - شركة سفن هاندز</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <button class="btn ghost-white small" id="printBylawsBtn" title="طباعة اللائحة">🖨️ طباعة</button>
+            <button class="btn ghost-white small" id="openBylawsDocBtn" title="فتح كقالب قابل للتعديل">📝 فتح القالب</button>
+            <button class="btn ghost-white small" id="closeBylawsModalBtn" aria-label="إغلاق">✕</button>
+          </div>
+        </div>
+        <div class="bylaws-modal-body">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap">
+            <span class="partition-badge">كود اللائحة المعتمدة: POL-HR-01/2024 · الإصدار 1.0</span>
+            <input type="text" id="bylawsSearch" placeholder="ابحث داخل مواد وبنود اللائحة..." style="border:1px solid var(--line);border-radius:20px;padding:6px 14px;font-size:13px;width:240px">
+          </div>
+          <div class="bylaws-nav-tabs" id="bylawsNavTabs">
+            ${chapters.map((ch, idx) => `
+              <button class="bylaws-tab-btn ${idx === 0 ? "active" : ""}" data-id="${ch.id}">
+                <span>${ch.icon}</span>
+                <span>${ui === "ar" ? ch.titleAr : ch.titleEn}</span>
+              </button>
+            `).join("")}
+          </div>
+          <div id="bylawsContentArea">
+            ${chapters[0].contentAr}
+          </div>
+        </div>
+      </div>
+    `;
+
+    $("#closeBylawsModalBtn").onclick = () => { modal.hidden = true; };
+    modal.onclick = (e) => { if (e.target === modal) modal.hidden = true; };
+
+    $("#printBylawsBtn").onclick = () => window.print();
+    $("#openBylawsDocBtn").onclick = () => {
+      modal.hidden = true;
+      const tpl = SH.TEMPLATES.find(x => x.id === "hr-bylaws-doc");
+      if (tpl) {
+        const d = tpl.make();
+        d.id = uid();
+        store.put(d);
+        openDoc(d);
+      }
+    };
+
+    const tabs = $$(".bylaws-tab-btn", modal);
+    tabs.forEach(tab => {
+      tab.onclick = () => {
+        tabs.forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        const chId = tab.getAttribute("data-id");
+        const found = chapters.find(c => c.id === chId);
+        if (found) {
+          $("#bylawsContentArea").innerHTML = found.contentAr;
+        }
+      };
+    });
+
+    const searchInput = $("#bylawsSearch");
+    if (searchInput) {
+      searchInput.oninput = (e) => {
+        const q = e.target.value.trim().toLowerCase();
+        if (!q) {
+          const activeTab = $(".bylaws-tab-btn.active", modal);
+          const chId = activeTab ? activeTab.getAttribute("data-id") : chapters[0].id;
+          const found = chapters.find(c => c.id === chId);
+          if (found) $("#bylawsContentArea").innerHTML = found.contentAr;
+          return;
+        }
+        let matches = "";
+        chapters.forEach(ch => {
+          if (ch.contentAr.toLowerCase().includes(q) || ch.titleAr.toLowerCase().includes(q)) {
+            matches += `
+              <div style="margin-bottom:18px;border-bottom:1px dashed var(--line);padding-bottom:12px">
+                <h3 style="color:var(--navy);font-size:16px;margin:0 0 8px">${ch.icon} ${ch.titleAr}</h3>
+                ${ch.contentAr}
+              </div>
+            `;
+          }
+        });
+        $("#bylawsContentArea").innerHTML = matches || `<p class="muted" style="text-align:center;padding:24px">لا توجد بنود تطابق: "${esc(q)}"</p>`;
+      };
+    }
+  }
+
+  /* ---------- Department Partitions & Access Control ---------- */
+  const PARTITION_KEY = "sh_active_partition";
+  let activePartition = "all";
+  try {
+    activePartition = localStorage.getItem(PARTITION_KEY) || "all";
+  } catch (e) {}
+
+  const DEPT_INFO = {
+    all: {
+      id: "all",
+      icon: "⚡",
+      ar: "كافة الأقسام",
+      en: "All Departments",
+      subAr: "صلاحيات كاملة لجميع النماذج واللوائح",
+      subEn: "Full access to all templates and bylaws",
+      descAr: "عرض موحد وشامل لكافة أقسام شركة سفن هاندز: تكنولوجيا المعلومات، الموارد البشرية، المشتريات، السكرتارية، الهندسة، والإدارة.",
+      descEn: "Comprehensive view of all SEVEN HANDS departments.",
+      managerAr: "الإدارة العامة / مسؤول النظام",
+      managerEn: "General Management / System Admin"
+    },
+    hr: {
+      id: "hr",
+      icon: "👥",
+      ar: "الموارد البشرية وشؤون العاملين",
+      en: "HR & Personnel",
+      subAr: "اللوائح الرسمية، الإجازات، الأذونات، الأوفر تايم، والاستقالات",
+      subEn: "Official bylaws, leaves, permissions, overtime, resignations",
+      descAr: "قسم شؤون العاملين واللوائح الرسمية المعتمدة (F-08/10): نماذج الإجازات (اعتيادي، عارضة، نصف يوم)، أذونات الحضور والانصراف، ساعات العمل الإضافي، إخلاء الطرف، ودليل اللائحة.",
+      descEn: "Personnel affairs and ISO F-08/10 forms: leaves, permissions, overtime, bylaws manual.",
+      managerAr: "إدارة الموارد البشرية وشؤون العاملين",
+      managerEn: "HR & Personnel Department",
+      quickActions: [
+        { label: "📖 لائحة الشركة المعتمدة", action: () => openBylawsModal(), highlight: true },
+        { label: "📝 طلب إجازة رسمي", tpl: "hr-leave-req" },
+        { label: "🎫 طلب إذن رسمي", tpl: "hr-prm-gen" },
+        { label: "💼 كشف أوفر تايم", tpl: "hr-overtime" },
+        { label: "🤝 تسليم عهدة", tpl: "hr-handover" },
+        { label: "📜 طلب استقالة", tpl: "hr-resignation" }
+      ]
+    },
+    it: {
+      id: "it",
+      icon: "💻",
+      ar: "تكنولوجيا المعلومات",
+      en: "IT Department",
+      subAr: "محطات Revit، مقارنات الأسعار، الصيانة، وجرد الأجهزة",
+      subEn: "Revit workstations, price comparisons, maintenance, inventory",
+      descAr: "قسم IT - م. صلاح (مهندس علوم حاسب) تحت إشراف م. عصام (مدير IT): ترقية محطات عمل أسطول Revit/Autodesk لـ 5 سنوات، مقارنات مول البستان والنخيلي وسيجما، وتذاكر الصيانة.",
+      descEn: "IT Department: Revit/Autodesk fleet upgrades, Bostan/Sigma price comparison, maintenance.",
+      managerAr: "إعداد: م. صلاح (مهندس علوم حاسب) · إشراف: م. عصام (مدير IT)",
+      managerEn: "Prep: Eng. Salah · Review: Eng. Esam (IT Manager)",
+      quickActions: [
+        { label: "💻 مواصفات Revit (5 سنوات)", tpl: "spec-revit" },
+        { label: "🏬 مقارنة مول البستان", tpl: "bostan" },
+        { label: "🛠️ تذكرة صيانة IT", tpl: "it-ticket" },
+        { label: "🗂️ سجل جرد الأجهزة", tpl: "it-inventory" },
+        { label: "🖱️ خطة الملحقات والاحتياطي", tpl: "spares" }
+      ]
+    },
+    procurement: {
+      id: "procurement",
+      icon: "🛒",
+      ar: "المشتريات والعقود",
+      en: "Procurement & Contracts",
+      subAr: "طلبات الشراء، مقارنات الموردين، وأوامر التوريد",
+      subEn: "Purchase requests, supplier quotes, purchase orders",
+      descAr: "قسم المشتريات والعقود: إعداد أذونات الشراء المعتمدة، مقارنة عروض الأسعار بين Sigma والنخيلي ومول البستان، إصدار أوامر التوريد للموردين المعتمدين.",
+      descEn: "Procurement & Contracts: PRs, price comparisons, supply orders.",
+      managerAr: "إدارة المشتريات ولجنة البت المالي",
+      managerEn: "Procurement & Financial Committee",
+      quickActions: [
+        { label: "🏬 مقارنة أسعار البستان", tpl: "bostan" },
+        { label: "🛒 طلب شراء معتمد (PR)", tpl: "proc-pr" },
+        { label: "🚚 أمر توريد رسمي (PO)", tpl: "proc-po" }
+      ]
+    },
+    secretary: {
+      id: "secretary",
+      icon: "📋",
+      ar: "السكرتارية والإدارة المكتبية",
+      en: "Secretary & Admin",
+      subAr: "الخطابات الرسمية، محاضر الاجتماعات، وحجز القاعات",
+      subEn: "Official letters, meeting minutes, room scheduling",
+      descAr: "السكرتارية التنفيذية: الخطابات الصادرة والواردة، توثيق وتوزيع محاضر الاجتماعات وتوصيات الإدارة، وجدول حجز قاعة الاجتماعات وسماعة Anker والشاشة 65 بوصة.",
+      descEn: "Executive Secretary: Official letters, meeting minutes, meeting room schedule.",
+      managerAr: "السكرتارية التنفيذية وإدارة المكتب",
+      managerEn: "Executive Secretariat",
+      quickActions: [
+        { label: "✉️ خطاب رسمي صادر", tpl: "sec-letter" },
+        { label: "📝 محضر اجتماع", tpl: "sec-minutes" },
+        { label: "📅 حجز قاعة الاجتماعات", tpl: "sec-room" }
+      ]
+    },
+    engineering: {
+      id: "engineering",
+      icon: "📐",
+      ar: "الخدمات الهندسية والمشاريع",
+      en: "Engineering Services",
+      subAr: "فحص محطات Revit، تراخيص البرامج الهندسية، والمشاريع",
+      subEn: "Revit workstation validation, software licensing, site inspection",
+      descAr: "قسم الخدمات الهندسية والمكتب الفني: مطابقة كفاءة محطات العمل لتشغيل Autodesk Revit و AutoCAD، طلبات التراخيص الهندسية وتقارير الفحص.",
+      descEn: "Engineering Services: Autodesk/Revit performance inspection and licensing.",
+      managerAr: "المكتب الفني وإدارة المشاريع الهندسية",
+      managerEn: "Technical Office & Projects",
+      quickActions: [
+        { label: "📐 فحص محطات Revit", tpl: "eng-inspection" },
+        { label: "💻 مواصفات Revit (5 سنوات)", tpl: "spec-revit" }
+      ]
+    },
+    management: {
+      id: "management",
+      icon: "🏢",
+      ar: "الإدارة العامة والمدير التنفيذي",
+      en: "General Management",
+      subAr: "مذكرات العرض الإداري، قرارات الاعتماد، وسجل المستندات",
+      subEn: "Administrative memos, approvals, central document register",
+      descAr: "الإدارة العامة والمدير التنفيذي: مذكرات اتخاذ القرار لتطوير الأسطول والأصول، اعتمادات طلبات الشراء، ومتابعة سجل المستندات المركزي وتصديره.",
+      descEn: "General Management: Decision-ready briefs, approvals, document registry.",
+      managerAr: "الرئيس التنفيذي / المدير العام",
+      managerEn: "Chief Executive Officer / General Manager",
+      quickActions: [
+        { label: "🏢 مذكرة قرار إداري", tpl: "mgmt-decision" },
+        { label: "📑 سجل المستندات المركزي", action: () => openRegistryModal(), highlight: true }
+      ]
+    }
+  };
+
+  function setPartition(deptId) {
+    activePartition = deptId || "all";
+    try {
+      localStorage.setItem(PARTITION_KEY, activePartition);
+    } catch (e) {}
+    updateHeaderDept();
+    activeFilter = activePartition;
+    renderHome();
+    showToast((ui === "ar" ? "تم الانتقال إلى: " : "Partition: ") + getPartitionName(activePartition), "⚡");
+  }
+
+  function getPartitionName(deptId) {
+    const info = DEPT_INFO[deptId] || DEPT_INFO.all;
+    return ui === "ar" ? info.ar : info.en;
+  }
+
+  function updateHeaderDept() {
+    const iconEl = $("#headerDeptIcon");
+    const labelEl = $("#headerDeptLabel");
+    const info = DEPT_INFO[activePartition] || DEPT_INFO.all;
+    if (iconEl) iconEl.textContent = info.icon;
+    if (labelEl) labelEl.textContent = ui === "ar" ? info.ar : info.en;
+
+    $$(".dept-opt-btn").forEach(btn => {
+      const d = btn.getAttribute("data-dept");
+      btn.classList.toggle("active", d === activePartition);
+    });
+  }
+
+  function initDepartmentSwitcher() {
+    const btn = $("#deptSwitcherBtn");
+    const menu = $("#deptDropdownMenu");
+    const bylawsBtn = $("#headerBylawsBtn");
+
+    if (bylawsBtn) {
+      bylawsBtn.onclick = openBylawsModal;
+    }
+
+    if (btn && menu) {
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        menu.hidden = !menu.hidden;
+        btn.setAttribute("aria-expanded", String(!menu.hidden));
+      };
+
+      $$(".dept-opt-btn", menu).forEach(opt => {
+        opt.onclick = (e) => {
+          e.stopPropagation();
+          const dept = opt.getAttribute("data-dept");
+          menu.hidden = true;
+          btn.setAttribute("aria-expanded", "false");
+          setPartition(dept);
+        };
+      });
+
+      document.addEventListener("click", () => {
+        if (!menu.hidden) {
+          menu.hidden = true;
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    }
+
+    updateHeaderDept();
+  }
+
   /* ---------- Home View with Interactive Search & Filters ---------- */
   function renderHome() {
     $("#editor").hidden = true;
@@ -730,13 +1193,14 @@
 
     const h = $("#home");
     const allDocs = Object.values(store.all()).sort((a, b) => b.updated - a.updated);
+    const deptInfo = DEPT_INFO[activePartition] || DEPT_INFO.all;
 
-    // Build department categories list
+    // Filter categories list
     const categories = [
       { id: "all", label: t("all"), icon: "⚡" },
+      { id: "hr", label: t("deptHr"), icon: "👥" },
       { id: "it", label: t("deptIt"), icon: "💻" },
       { id: "procurement", label: t("deptProcurement"), icon: "🛒" },
-      { id: "hr", label: t("deptHr"), icon: "👥" },
       { id: "secretary", label: t("deptSecretary"), icon: "📋" },
       { id: "engineering", label: t("deptEngineering"), icon: "📐" },
       { id: "management", label: t("deptManagement"), icon: "🏢" },
@@ -745,37 +1209,67 @@
     ];
 
     h.innerHTML = `
-      <!-- Stats Dashboard -->
-      <div class="stats-bar">
-        <div class="stat-card">
-          <div class="stat-icon">📄</div>
-          <div class="stat-info">
-            <span class="stat-val">${SH.TEMPLATES.length}</span>
-            <span class="stat-lbl">${t("statTemplates")}</span>
+      ${activePartition !== "all" ? `
+        <!-- Department Partition Workspace Card -->
+        <div class="partition-card">
+          <div class="partition-head">
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap">
+                <span class="partition-badge">قسم معتمد · SEVEN HANDS</span>
+                <span class="partition-badge" style="background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.3)">${deptInfo.managerAr}</span>
+              </div>
+              <h2 class="partition-title">${deptInfo.icon} ${ui === "ar" ? deptInfo.ar : deptInfo.en}</h2>
+              <p class="partition-desc">${ui === "ar" ? deptInfo.descAr : deptInfo.descEn}</p>
+            </div>
+            <button class="part-act-btn" id="switchAllPartBtn" title="عرض كافة الأقسام">
+              <span>🔄</span>
+              <span>${ui === "ar" ? "عرض كل الأقسام" : "View All"}</span>
+            </button>
+          </div>
+          ${deptInfo.quickActions && deptInfo.quickActions.length ? `
+            <div class="partition-actions">
+              <small style="font-weight:700;color:#b8f4fc;margin-inline-end:6px">إجراءات ونماذج سريعة:</small>
+              ${deptInfo.quickActions.map((qa, i) => `
+                <button class="part-act-btn ${qa.highlight ? "highlight" : ""}" data-qa-idx="${i}">
+                  <span>${qa.label}</span>
+                </button>
+              `).join("")}
+            </div>
+          ` : ""}
+        </div>
+      ` : `
+        <!-- Stats Dashboard -->
+        <div class="stats-bar">
+          <div class="stat-card">
+            <div class="stat-icon">📄</div>
+            <div class="stat-info">
+              <span class="stat-val">${SH.TEMPLATES.length}</span>
+              <span class="stat-lbl">${t("statTemplates")}</span>
+            </div>
+          </div>
+          <div class="stat-card" id="savedStatsCard" role="button" tabindex="0" title="${t("registry")}">
+            <div class="stat-icon">💾</div>
+            <div class="stat-info">
+              <span class="stat-val">${allDocs.length}</span>
+              <span class="stat-lbl">${t("statSaved")} (انقر للسجل)</span>
+            </div>
+          </div>
+          <div class="stat-card" id="bylawsStatsCard" role="button" tabindex="0" title="${t("bylawsTitle")}">
+            <div class="stat-icon">📖</div>
+            <div class="stat-info">
+              <span class="stat-val">F-08/10</span>
+              <span class="stat-lbl">${t("bylawsLabel")} (معتمدة)</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🚀</div>
+            <div class="stat-info">
+              <span class="stat-val">Excel · Word · PDF</span>
+              <span class="stat-lbl">${t("statExport")}</span>
+            </div>
           </div>
         </div>
-        <div class="stat-card" id="savedStatsCard" role="button" tabindex="0" title="${t("registry")}">
-          <div class="stat-icon">💾</div>
-          <div class="stat-info">
-            <span class="stat-val">${allDocs.length}</span>
-            <span class="stat-lbl">${t("statSaved")} (انقر للسجل)</span>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">⚡</div>
-          <div class="stat-info">
-            <span class="stat-val">${ui === "ar" ? "فوري وتلقائي" : "Live & Realtime"}</span>
-            <span class="stat-lbl">${t("statCalc")}</span>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">🚀</div>
-          <div class="stat-info">
-            <span class="stat-val">Excel · Word · PDF</span>
-            <span class="stat-lbl">${t("statExport")}</span>
-          </div>
-        </div>
-      </div>
+      `}
 
       <!-- Search & Interactive Filter Pills -->
       <div class="search-filter-wrap">
@@ -820,6 +1314,40 @@
       </section>
     `;
 
+    // Hook up switch all button
+    const swAll = $("#switchAllPartBtn");
+    if (swAll) swAll.onclick = () => setPartition("all");
+
+    // Hook up partition quick actions
+    if (deptInfo.quickActions) {
+      $$("[data-qa-idx]", h).forEach(b => {
+        b.onclick = () => {
+          const idx = parseInt(b.getAttribute("data-qa-idx"), 10);
+          const qa = deptInfo.quickActions[idx];
+          if (qa) {
+            if (qa.action) {
+              qa.action();
+            } else if (qa.tpl) {
+              const tp = SH.TEMPLATES.find(x => x.id === qa.tpl || x.prefix === qa.tpl);
+              if (tp) {
+                const newDoc = tp.make();
+                newDoc.id = uid();
+                newDoc.name = ui === "ar" ? tp.ar : tp.en;
+                newDoc.tpl = tp.id;
+                newDoc.dept = tp.dept || "it";
+                const nextSeq = allDocs.length + 1;
+                newDoc.docNumber = `${tp.prefix || "SH-DOC"}-2026-${String(nextSeq).padStart(4, "0")}`;
+                newDoc.status = "draft";
+                store.put(newDoc);
+                showToast(t("savedOk"), "💾");
+                openDoc(newDoc);
+              }
+            }
+          }
+        };
+      });
+    }
+
     // Render filter pills
     const pillsContainer = $("#filterPills");
     categories.forEach(cat => {
@@ -845,6 +1373,8 @@
 
     const sStatsCard = $("#savedStatsCard");
     if (sStatsCard) sStatsCard.onclick = openRegistryModal;
+    const bStatsCard = $("#bylawsStatsCard");
+    if (bStatsCard) bStatsCard.onclick = openBylawsModal;
     const hRegBtn = $("#homeRegistryBtn");
     if (hRegBtn) hRegBtn.onclick = openRegistryModal;
     const vRegBtn = $("#viewRegistryTableBtn");
@@ -1746,6 +2276,7 @@
   // Initialize interactive components
   initInteractiveLoader();
   initFloatingActions();
+  initDepartmentSwitcher();
 
   // Route initial URL
   const initialHash = location.hash.replace(/^#/, "").trim();

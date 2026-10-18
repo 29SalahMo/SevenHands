@@ -1365,6 +1365,276 @@ tfoot td{background:#DCEBF4;font-weight:700}
 .exporting .page [contenteditable]:hover{background:none}
 
 /* ========================================================
+   Department Partition Switcher & Workspace Access
+   ======================================================== */
+.dept-switcher-wrap{
+  position:relative;
+  display:inline-block;
+}
+.dept-switcher-btn{
+  background:rgba(255,255,255,0.12);
+  color:#fff;
+  border:1px solid rgba(255,255,255,0.22);
+  border-radius:24px;
+  padding:6px 14px;
+  font-weight:700;
+  font-size:13px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  cursor:pointer;
+  transition:all 0.2s ease;
+}
+.dept-switcher-btn:hover{
+  background:rgba(255,255,255,0.2);
+  border-color:var(--cyan);
+}
+.dept-switcher-caret{
+  font-size:9px;
+  opacity:0.75;
+  transition:transform 0.2s ease;
+}
+.dept-dropdown-menu{
+  position:absolute;
+  top:calc(100% + 8px);
+  inset-inline-start:0;
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 12px 36px rgba(9,72,120,0.24);
+  border:1px solid var(--line);
+  padding:8px;
+  width:290px;
+  z-index:900;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  animation:fadeIn 0.18s ease;
+}
+.dept-dropdown-menu[hidden]{display:none}
+.dept-dropdown-head{
+  padding:6px 10px 4px;
+  color:var(--mut);
+  font-weight:700;
+  font-size:11.5px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:4px;
+}
+.dept-opt-btn{
+  background:none;
+  border:none;
+  border-radius:8px;
+  padding:8px 10px;
+  text-align:inherit;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+  transition:background 0.15s ease;
+  width:100%;
+}
+.dept-opt-btn:hover{
+  background:var(--soft);
+}
+.dept-opt-btn.active{
+  background:#e5f6f9;
+  border-inline-start:3px solid var(--cyan);
+}
+.dept-opt-icon{
+  font-size:18px;
+}
+.dept-opt-btn strong{
+  display:block;
+  font-size:13.5px;
+  color:var(--navy);
+}
+.dept-opt-btn small{
+  display:block;
+  font-size:11px;
+  color:var(--mut);
+}
+
+/* ========================================================
+   Partition Workspace Banner
+   ======================================================== */
+.partition-card{
+  background:linear-gradient(135deg, #094878 0%, #0d5c96 60%, #073559 100%);
+  color:#fff;
+  border-radius:var(--radius-lg);
+  padding:20px 24px;
+  margin-bottom:24px;
+  box-shadow:var(--shadow-md);
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(19,183,205,0.25);
+}
+.partition-card::after{
+  content:"";
+  position:absolute;
+  inset-inline-end:-30px;
+  top:-30px;
+  width:160px;
+  height:160px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(19,183,205,0.22) 0%, transparent 70%);
+  pointer-events:none;
+}
+.partition-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-bottom:14px;
+}
+.partition-badge{
+  background:rgba(19,183,205,0.2);
+  border:1px solid var(--cyan);
+  color:#b8f4fc;
+  padding:3px 10px;
+  border-radius:14px;
+  font-size:11.5px;
+  font-weight:700;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+}
+.partition-title{
+  margin:4px 0;
+  font-size:20px;
+  font-weight:700;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.partition-desc{
+  margin:0;
+  color:#c7deee;
+  font-size:13.5px;
+  max-width:750px;
+  line-height:1.55;
+}
+.partition-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  padding-top:14px;
+  border-top:1px solid rgba(255,255,255,0.12);
+}
+.part-act-btn{
+  background:rgba(255,255,255,0.14);
+  border:1px solid rgba(255,255,255,0.25);
+  color:#fff;
+  border-radius:20px;
+  padding:6px 14px;
+  font-size:12.5px;
+  font-weight:700;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  transition:all 0.18s ease;
+}
+.part-act-btn:hover{
+  background:#fff;
+  color:var(--navy);
+  border-color:#fff;
+  transform:translateY(-1px);
+}
+.part-act-btn.highlight{
+  background:var(--cyan);
+  color:#052438;
+  border-color:var(--cyan);
+}
+.part-act-btn.highlight:hover{
+  background:#32d0e4;
+  color:#000;
+}
+
+/* ========================================================
+   HR Bylaws Interactive Reader Modal
+   ======================================================== */
+.bylaws-modal-wrap{
+  background:#fff;
+  border-radius:var(--radius-lg);
+  max-width:960px;
+  width:100%;
+  max-height:92vh;
+  display:flex;
+  flex-direction:column;
+  box-shadow:0 16px 48px rgba(0,0,0,0.3);
+  overflow:hidden;
+  animation:fadeIn 0.2s ease;
+}
+.bylaws-modal-head{
+  background:linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+  color:#fff;
+  padding:16px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:2px solid var(--cyan);
+}
+.bylaws-title{
+  font-size:18px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.bylaws-modal-body{
+  padding:20px 24px;
+  overflow-y:auto;
+  flex:1;
+}
+.bylaws-nav-tabs{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding-bottom:12px;
+  margin-bottom:16px;
+  border-bottom:1px solid var(--line);
+}
+.bylaws-tab-btn{
+  background:var(--soft);
+  border:1px solid var(--line);
+  color:var(--navy);
+  padding:7px 14px;
+  border-radius:20px;
+  font-weight:700;
+  font-size:13px;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:all 0.15s ease;
+}
+.bylaws-tab-btn.active{
+  background:var(--navy);
+  color:#fff;
+  border-color:var(--navy);
+}
+.bylaws-article{
+  background:#fafcfe;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:16px 18px;
+  margin-bottom:14px;
+}
+.bylaws-article h4{
+  margin:0 0 8px;
+  color:var(--navy);
+  font-size:16px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.bylaws-article p,.bylaws-article li{
+  line-height:1.65;
+  color:var(--ink);
+  font-size:14px;
+}
+
+/* ========================================================
    Responsive & Print Rules
    ======================================================== */
 @media(max-width:768px){
